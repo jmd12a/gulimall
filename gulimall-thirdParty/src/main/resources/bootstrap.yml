@@ -1,0 +1,13 @@
+# bootstrap.yml 引导配置文件，比application配置文件的优先级更高
+# 如果不配置这个文件又开启了nacos服务的话，服务会在加载application.yml文件之前先加载本地的nacos，而本地又没有开启就会导致报错
+spring:
+  application:
+    name: third-party # 服务名称
+  profiles:
+    active: dev # 开发环境
+  cloud:
+    nacos:
+      server-addr: 192.168.153.128:8849 # nacos地址
+      discovery:
+        namespace: 20628f6c-4f40-43e4-a3a1-23354741e2c3 # 服务所在的环境
+        group: dev

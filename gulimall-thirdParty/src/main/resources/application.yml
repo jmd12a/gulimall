@@ -1,0 +1,14 @@
+server:
+  port: 8086
+
+alibaba:
+  cloud:
+    secret-key: apFHKHZ7BXKYujnPwmYPAnmIGWgqvv
+    access-key: LTAI5tDesSyzsjWUehvh7Z6m
+    oss:
+      endpoint: oss-cn-hangzhou.aliyuncs.com
+
+oss:
+  accessKeyId: LTAI5tDesSyzsjWUehvh7Z6m
+  accessSecret: apFHKHZ7BXKYujnPwmYPAnmIGWgqvv
+

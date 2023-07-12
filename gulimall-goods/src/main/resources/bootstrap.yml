@@ -1,0 +1,42 @@
+# bootstrap.yml 引导配置文件，比application配置文件的优先级更高
+spring:
+  application:
+    name: goods-service # 服务名称
+  profiles:
+    active: dev # 开发环境
+  cloud:
+    nacos:
+      server-addr: 192.168.153.128:8849 # nacos地址
+      discovery:
+        namespace: 20628f6c-4f40-43e4-a3a1-23354741e2c3
+        group: dev
+
+      # config的配置有一个坑就是，在nacos配置中心发布配置时，一定要在配置文件的后面加上后缀
+      # spring从nacos的配置中心中获取配置时，是通过data-id来获取的。
+      # 而extension-configs注明data-id时，是必须要注明配置的格式的，spring向nacos发送请求时，不会去掉后缀
+      # 因此，如果nacos中的配置不注明后缀，nacos中就找不到了
+
+      config:
+        # 只有这个spring会请求 goods-dev.yaml, goods.yaml, goods.yaml三个配置
+        # 如果没有注明，则默认使用配置名goods-service
+        # 因此，总的来说，配置中心的配置一定要注明后缀名
+        # name: goods
+        enabled: true #开启nacos远程配置
+        namespace: 20628f6c-4f40-43e4-a3a1-23354741e2c3
+        refresh-enabled: true # 开启配置的自动刷新
+        group: dev
+        file-extension: yaml # 要读取配置的文件后缀名
+        extension-configs:
+          # 如果是使用@Value获取的值，可以动态刷新；如果是数据源等启动时就注册好的组件，动态刷新是无效的
+          - data-id: goods-datasource.yaml
+            group: dev
+            refresh: false
+
+          - data-id: goods-mybatis-plus.yaml
+            group: dev
+            refresh: false
+
+
+
+
+
