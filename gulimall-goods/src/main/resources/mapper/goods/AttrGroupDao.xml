@@ -13,5 +13,13 @@
         <result property="catelogId" column="catelog_id"/>
     </resultMap>
 
-
+    <select id="selectAttrByAttrGroupId" parameterType="integer" resultType="com.keda.gulimall.goods.entity.AttrEntity">
+        SELECT * FROM
+            `pms_attr` a
+        LEFT JOIN
+            `pms_attr_attrgroup_relation` r
+        ON a.`attr_id` = r.`attr_id`
+        where
+            r.`attr_group_id` = #{attrGroupId}
+    </select>
 </mapper>

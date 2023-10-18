@@ -1,8 +1,12 @@
 package com.keda.gulimall.goods.dao;
 
+import com.keda.gulimall.goods.entity.AttrEntity;
 import com.keda.gulimall.goods.entity.AttrGroupEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 属性分组
@@ -13,5 +17,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface AttrGroupDao extends BaseMapper<AttrGroupEntity> {
-	
+
+    List<AttrEntity> selectAttrByAttrGroupId(@Param("attrGroupId") Integer attrGroupId);
 }

@@ -10,7 +10,7 @@ import java.util.Map;
 // 解析前段的代码，并构建page对象
 public class ParamsUtils<T> {
 
-    public Page<T> getPage(Map map){
+    public Page<T>  getPage(Map map){
         Integer pageNum = 1 ;
         Integer pageSize = 10;
 
@@ -39,7 +39,7 @@ public class ParamsUtils<T> {
             }else if (order.equalsIgnoreCase("desc")){
                 page.addOrder(OrderItem.desc(sidx));
             }
-        }else if (!StringUtils.isEmpty(sidx)){ // 如果字段不为空，排序方式不为空，默认升序排序
+        }else if (!StringUtils.isEmpty(sidx)){ // 如果字段不为空，排序方式为空，默认升序排序
             page.addOrder(OrderItem.asc(sidx));
         }
 

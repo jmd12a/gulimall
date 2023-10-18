@@ -1,7 +1,9 @@
 package com.keda.gulimall.goods;
 
 import com.keda.common.utils.R;
+import com.keda.gulimall.goods.entity.AttrEntity;
 import com.keda.gulimall.goods.entity.AttrGroupEntity;
+import com.keda.gulimall.goods.service.AttrAttrgroupRelationService;
 import com.keda.gulimall.goods.service.AttrGroupService;
 import com.keda.gulimall.goods.service.impl.AttrGroupServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import javax.annotation.Resource;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
@@ -19,6 +22,9 @@ class GulimallGoodsApplicationTests {
 
     @Resource
     private AttrGroupServiceImpl attrGroupService;
+
+    @Resource
+    private AttrAttrgroupRelationService relationService;
 
     @Test
     void contextLoads() {
@@ -85,6 +91,12 @@ class GulimallGoodsApplicationTests {
         longs.forEach(l ->{
             System.out.println(l);
         });
+    }
+
+    @Test
+    public void test3(){
+        List<AttrEntity> attrEntities = relationService.queryAttrByAttrGroupId(2);
+        System.out.println(attrEntities);
     }
 
 }

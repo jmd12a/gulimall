@@ -4,12 +4,19 @@ server:
 spring:
   application:
     name: memberService
+  driver-class-name: com.mysql.cj.jdbc.Driver
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://192.168.153.128:3306/gulimall_ums?serverTimezone=UTC&characterEncoding=UTF8
       username: root
       password: 122964
+  cloud:
+    nacos:
+      server-addr: 192.168.153.128:8849 # nacos地址
+      discovery:
+        namespace: 20628f6c-4f40-43e4-a3a1-23354741e2c3
+        group: dev
 
 mybatis-plus:
   configuration:
