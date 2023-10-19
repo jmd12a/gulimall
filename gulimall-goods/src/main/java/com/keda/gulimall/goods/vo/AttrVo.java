@@ -5,6 +5,8 @@ package com.keda.gulimall.goods.vo;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class AttrVo {
     private static final long serialVersionUID = 1L;
@@ -52,5 +54,11 @@ public class AttrVo {
     private Integer showDesc;
 
     private Long attrGroupId;
+
+    private String catelogName;
+
+    private String groupName;
+
+    private List<Long> catelogPath;
 
 }

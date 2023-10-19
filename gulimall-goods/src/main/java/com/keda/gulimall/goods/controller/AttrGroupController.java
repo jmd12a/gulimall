@@ -116,6 +116,10 @@ public class AttrGroupController {
     // 当使用两个@RequestParam注解，一个注解指定接收某个变量，一个注解使用map接收所有变量时，被指定接收的变量两者都能接收到
     public R getNoRelationAttr(@PathVariable("attrgroupId") Long attrgroupId, @RequestParam("key") String key,@RequestParam Map<String,Object> map){
 
+        Page page = attrGroupService.getAttrWithoutRelation(attrgroupId,key,map);
+
+        /*AttrGroupEntity attrGroup = attrGroupService.getById(attrgroupId);
+
         List<AttrAttrgroupRelationEntity> attrgroupRelationEntities = relationService.list(new LambdaQueryWrapper<AttrAttrgroupRelationEntity>()
                 .eq(AttrAttrgroupRelationEntity::getAttrGroupId, attrgroupId));
 
@@ -125,9 +129,10 @@ public class AttrGroupController {
 
         LambdaQueryWrapper<AttrEntity> wrapper = new LambdaQueryWrapper<AttrEntity>()
                 .notIn(attrIds.size() > 0, AttrEntity::getAttrId, attrIds)
-                .like((!StringUtils.isEmpty(key)), AttrEntity::getAttrName, key);
+                .like((!StringUtils.isEmpty(key)), AttrEntity::getAttrName, key)
+                .eq(AttrEntity::getCatelogId,attrGroup.getCatelogId());
 
-        Page<AttrEntity> page = attrService.page(new ParamsUtils<AttrEntity>().getPage(map), wrapper);
+        Page<AttrEntity> page = attrService.page(new ParamsUtils<AttrEntity>().getPage(map), wrapper);*/
 
         return R.ok().put("page",new PageUtils(page));
     }

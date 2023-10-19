@@ -1,5 +1,6 @@
 package com.keda.gulimall.goods.dao;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.keda.gulimall.goods.entity.AttrEntity;
 import com.keda.gulimall.goods.entity.AttrGroupEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -19,4 +20,9 @@ import java.util.List;
 public interface AttrGroupDao extends BaseMapper<AttrGroupEntity> {
 
     List<AttrEntity> selectAttrByAttrGroupId(@Param("attrGroupId") Integer attrGroupId);
+
+    Page getAttrWithoutRelation(@Param("attrGroupId") Long attrgroupId,
+                                @Param("key") String key,
+                                Page<AttrEntity> page);
+
 }

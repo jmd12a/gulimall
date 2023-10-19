@@ -159,9 +159,10 @@
         <module>gulimall-member</module>
         <module>gulimall-order</module>
         <module>gulimall-ware</module>
-        <module>renren-fast</module>
         <module>gulimall-common</module>
         <module>gulimall-gateway</module>
+        <module>renren-fast</module>
     </modules>
+
 
 </project>

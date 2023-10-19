@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.keda.common.utils.ParamsUtils;
 import com.keda.gulimall.goods.dao.CategoryDao;
+import com.keda.gulimall.goods.entity.AttrEntity;
 import com.keda.gulimall.goods.entity.CategoryEntity;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,10 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
     @Resource
     private CategoryDao categoryDao;
 
+
+    @Resource
+    private AttrGroupDao attrGroupDao;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<AttrGroupEntity> page = this.page(
@@ -48,6 +53,7 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     @Override
     public PageUtils queryPageWithCategoryId(Map<String, Object> params, Long categoryId) {
+
         String key = (String) params.get("key");
         LambdaQueryWrapper<AttrGroupEntity> wrapper;
         if (categoryId == 0){
@@ -100,6 +106,14 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
         if (categoryEntity.getParentCid().intValue() != 0){ // 在查出来的categoryEntity的父类id不等于0的情况下进行递归，等于0时，递归结束
             getCateLogPath(categoryEntity.getParentCid(),groupEntities);
         }
+    }
+
+    @Override
+    public Page getAttrWithoutRelation(Long attrgroupId, String key, Map<String, Object> map) {
+
+
+        return attrGroupDao.getAttrWithoutRelation(attrgroupId, key, new ParamsUtils<AttrEntity>().getPage(map));
+
     }
 
 }

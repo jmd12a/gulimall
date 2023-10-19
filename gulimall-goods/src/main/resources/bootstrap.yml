@@ -8,7 +8,7 @@ spring:
     nacos:
       server-addr: 192.168.153.128:8849 # nacos地址
       discovery:
-        namespace: 20628f6c-4f40-43e4-a3a1-23354741e2c3
+        namespace: f0e965ab-d760-4f3e-aa80-d881b5ef84e3
         group: dev
 
       # config的配置有一个坑就是，在nacos配置中心发布配置时，一定要在配置文件的后面加上后缀
@@ -22,19 +22,11 @@ spring:
         # 因此，总的来说，配置中心的配置一定要注明后缀名
         # name: goods
         enabled: true #开启nacos远程配置
-        namespace: 20628f6c-4f40-43e4-a3a1-23354741e2c3
+        namespace: f0e965ab-d760-4f3e-aa80-d881b5ef84e3
         refresh-enabled: true # 开启配置的自动刷新
         group: dev
         file-extension: yaml # 要读取配置的文件后缀名
-        extension-configs:
-          # 如果是使用@Value获取的值，可以动态刷新；如果是数据源等启动时就注册好的组件，动态刷新是无效的
-          - data-id: goods-datasource.yaml
-            group: dev
-            refresh: false
 
-          - data-id: goods-mybatis-plus.yaml
-            group: dev
-            refresh: false
 
 
 

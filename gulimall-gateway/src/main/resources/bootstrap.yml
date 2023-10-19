@@ -9,5 +9,5 @@ spring:
     nacos:
       server-addr: 192.168.153.128:8849 # nacos地址
       discovery:
-        namespace: 20628f6c-4f40-43e4-a3a1-23354741e2c3 # 服务所在的环境
+        namespace: f0e965ab-d760-4f3e-aa80-d881b5ef84e3 # 服务所在的环境
         group: dev

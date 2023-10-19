@@ -15,11 +15,38 @@
 
     <select id="selectAttrByAttrGroupId" parameterType="integer" resultType="com.keda.gulimall.goods.entity.AttrEntity">
         SELECT * FROM
-            `pms_attr` a
+            gulimall_pms.pms_attr a
         LEFT JOIN
-            `pms_attr_attrgroup_relation` r
+            gulimall_pms.pms_attr_attrgroup_relation r
         ON a.`attr_id` = r.`attr_id`
-        where
+        where 
             r.`attr_group_id` = #{attrGroupId}
+    </select>
+
+    <select id="getAttrWithoutRelation" resultType="com.keda.gulimall.goods.entity.AttrEntity">
+        SELECT
+            *
+        FROM
+            gulimall_pms.pms_attr a
+        WHERE
+                attr_id NOT IN ( -- 只要是在关联列表中的，无论是其他分组关联的，还是自己的关联的，都要移除
+                SELECT
+                    attr_id
+                FROM
+                    gulimall_pms.pms_attr_attrgroup_relation
+                )
+
+          <if test="key != null and key != ''.toString">
+              AND a.attr_name LIKE CONCAT( '%',#{key}, '%' )
+          </if>
+
+          AND a.catelog_id = (
+            SELECT
+                catelog_id
+            FROM
+                gulimall_pms.pms_attr_group
+            WHERE
+                attr_group_id = #{attrGroupId})
+          AND a.attr_type = '1'
     </select>
 </mapper>
