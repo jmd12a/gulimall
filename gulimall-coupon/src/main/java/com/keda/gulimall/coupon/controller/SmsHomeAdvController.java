@@ -35,7 +35,7 @@ public class SmsHomeAdvController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("coupon:smshomeadv:list")
+    // @RequiresPermissions("coupon:smshomeadv:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = smsHomeAdvService.queryPage(params);
 
@@ -47,7 +47,7 @@ public class SmsHomeAdvController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("coupon:smshomeadv:info")
+    // @RequiresPermissions("coupon:smshomeadv:info")
     public R info(@PathVariable("id") Long id){
 		SmsHomeAdvEntity smsHomeAdv = smsHomeAdvService.getById(id);
 
@@ -58,7 +58,7 @@ public class SmsHomeAdvController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("coupon:smshomeadv:save")
+    // @RequiresPermissions("coupon:smshomeadv:save")
     public R save(@RequestBody SmsHomeAdvEntity smsHomeAdv){
 		smsHomeAdvService.save(smsHomeAdv);
 
@@ -69,7 +69,7 @@ public class SmsHomeAdvController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("coupon:smshomeadv:update")
+    // @RequiresPermissions("coupon:smshomeadv:update")
     public R update(@RequestBody SmsHomeAdvEntity smsHomeAdv){
 		smsHomeAdvService.updateById(smsHomeAdv);
 
@@ -80,7 +80,7 @@ public class SmsHomeAdvController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("coupon:smshomeadv:delete")
+    // @RequiresPermissions("coupon:smshomeadv:delete")
     public R delete(@RequestBody Long[] ids){
 		smsHomeAdvService.removeByIds(Arrays.asList(ids));
 

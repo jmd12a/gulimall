@@ -26,7 +26,7 @@ import com.keda.common.utils.R;
  * @date 2023-05-13 23:20:21
  */
 @RestController
-@RequestMapping("ware/wmswaresku")
+@RequestMapping("ware/waresku")
 public class WmsWareSkuController {
     @Autowired
     private WmsWareSkuService wmsWareSkuService;
@@ -35,9 +35,9 @@ public class WmsWareSkuController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("ware:wmswaresku:list")
+    // @RequiresPermissions("ware:wmswaresku:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = wmsWareSkuService.queryPage(params);
+        PageUtils page = wmsWareSkuService.queryPageWithCondition(params);
 
         return R.ok().put("page", page);
     }
@@ -47,7 +47,7 @@ public class WmsWareSkuController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("ware:wmswaresku:info")
+    // @RequiresPermissions("ware:wmswaresku:info")
     public R info(@PathVariable("id") Long id){
 		WmsWareSkuEntity wmsWareSku = wmsWareSkuService.getById(id);
 
@@ -58,7 +58,7 @@ public class WmsWareSkuController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("ware:wmswaresku:save")
+    // @RequiresPermissions("ware:wmswaresku:save")
     public R save(@RequestBody WmsWareSkuEntity wmsWareSku){
 		wmsWareSkuService.save(wmsWareSku);
 
@@ -69,7 +69,7 @@ public class WmsWareSkuController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("ware:wmswaresku:update")
+    // @RequiresPermissions("ware:wmswaresku:update")
     public R update(@RequestBody WmsWareSkuEntity wmsWareSku){
 		wmsWareSkuService.updateById(wmsWareSku);
 
@@ -80,7 +80,7 @@ public class WmsWareSkuController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("ware:wmswaresku:delete")
+    // @RequiresPermissions("ware:wmswaresku:delete")
     public R delete(@RequestBody Long[] ids){
 		wmsWareSkuService.removeByIds(Arrays.asList(ids));
 

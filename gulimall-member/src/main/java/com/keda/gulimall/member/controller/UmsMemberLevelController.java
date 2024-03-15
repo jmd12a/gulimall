@@ -26,7 +26,7 @@ import com.keda.common.utils.R;
  * @date 2023-05-13 23:05:04
  */
 @RestController
-@RequestMapping("member/umsmemberlevel")
+@RequestMapping("member/memberlevel")
 public class UmsMemberLevelController {
     @Autowired
     private UmsMemberLevelService umsMemberLevelService;
@@ -35,7 +35,7 @@ public class UmsMemberLevelController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("member:umsmemberlevel:list")
+    // // @RequiresPermissions("member:umsmemberlevel:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = umsMemberLevelService.queryPage(params);
 
@@ -47,18 +47,18 @@ public class UmsMemberLevelController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("member:umsmemberlevel:info")
+    // // @RequiresPermissions("member:umsmemberlevel:info")
     public R info(@PathVariable("id") Long id){
 		UmsMemberLevelEntity umsMemberLevel = umsMemberLevelService.getById(id);
 
-        return R.ok().put("umsMemberLevel", umsMemberLevel);
+        return R.ok().put("MemberLevel", umsMemberLevel);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("member:umsmemberlevel:save")
+    // // @RequiresPermissions("member:umsmemberlevel:save")
     public R save(@RequestBody UmsMemberLevelEntity umsMemberLevel){
 		umsMemberLevelService.save(umsMemberLevel);
 
@@ -69,7 +69,7 @@ public class UmsMemberLevelController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("member:umsmemberlevel:update")
+    // // @RequiresPermissions("member:umsmemberlevel:update")
     public R update(@RequestBody UmsMemberLevelEntity umsMemberLevel){
 		umsMemberLevelService.updateById(umsMemberLevel);
 
@@ -80,7 +80,7 @@ public class UmsMemberLevelController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("member:umsmemberlevel:delete")
+    // // @RequiresPermissions("member:umsmemberlevel:delete")
     public R delete(@RequestBody Long[] ids){
 		umsMemberLevelService.removeByIds(Arrays.asList(ids));
 

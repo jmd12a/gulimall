@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.keda.common.utils.PageUtils;
 import com.keda.gulimall.goods.entity.AttrGroupEntity;
+import com.keda.gulimall.goods.vo.AttrGroupVo;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,5 +26,7 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
     public void getCateLogPath(Long categoryId, ArrayList<Long> groupEntities);
 
     Page getAttrWithoutRelation(Long attrgroupId, String key, Map<String, Object> map);
+
+    List<AttrGroupVo> getAttrGroupWithAttr(String categoryId);
 }
 

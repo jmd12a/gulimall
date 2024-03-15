@@ -35,7 +35,7 @@ public class SmsSkuLadderController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("coupon:smsskuladder:list")
+    // @RequiresPermissions("coupon:smsskuladder:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = smsSkuLadderService.queryPage(params);
 
@@ -47,7 +47,7 @@ public class SmsSkuLadderController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("coupon:smsskuladder:info")
+    // @RequiresPermissions("coupon:smsskuladder:info")
     public R info(@PathVariable("id") Long id){
 		SmsSkuLadderEntity smsSkuLadder = smsSkuLadderService.getById(id);
 
@@ -58,7 +58,7 @@ public class SmsSkuLadderController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("coupon:smsskuladder:save")
+    // @RequiresPermissions("coupon:smsskuladder:save")
     public R save(@RequestBody SmsSkuLadderEntity smsSkuLadder){
 		smsSkuLadderService.save(smsSkuLadder);
 
@@ -69,7 +69,7 @@ public class SmsSkuLadderController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("coupon:smsskuladder:update")
+    // @RequiresPermissions("coupon:smsskuladder:update")
     public R update(@RequestBody SmsSkuLadderEntity smsSkuLadder){
 		smsSkuLadderService.updateById(smsSkuLadder);
 
@@ -80,7 +80,7 @@ public class SmsSkuLadderController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("coupon:smsskuladder:delete")
+    // @RequiresPermissions("coupon:smsskuladder:delete")
     public R delete(@RequestBody Long[] ids){
 		smsSkuLadderService.removeByIds(Arrays.asList(ids));
 

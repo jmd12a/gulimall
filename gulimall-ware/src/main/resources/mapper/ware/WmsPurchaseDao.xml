@@ -17,5 +17,53 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
+    <update id="addRepertoryByPurDetailId">
+        UPDATE wms_ware_sku ws
+        SET ws.stock = ws.stock + ( SELECT sum(sku_num) FROM wms_purchase_detail wp WHERE ws.sku_id = wp.sku_id AND ws.ware_id = wp.ware_id )
+        WHERE
+            EXISTS (
+                SELECT
+                    1
+                FROM
+                    wms_purchase_detail wp
+                WHERE
+                    ws.sku_id = wp.sku_id
+                  AND ws.ware_id = wp.ware_id
+                  AND wp.id IN 
+                <foreach collection="detailIds" separator="," open="(" close=")" item="id">
+                    #{id}
+                </foreach>
+                )
+        UPDATE wms_ware_sku ws
+        SET ws.stock = ws.stock +
+        (
+        SELECT
+        SUM( sku_num )
+        FROM
+        wms_purchase_detail wp
+        WHERE
+        ws.sku_id = wp.sku_id
+        AND ws.ware_id = wp.ware_id
+        AND wp.id IN
 
+        <foreach collection="detailIds" separator="," open="(" close=")" item="id">
+            #{id}
+        </foreach>
+        ) -- 更新的值是去查出来的，根据这三个条件去匹配 wp，然后对wp的sku_num去和进行更新
+        WHERE
+        EXISTS (
+        SELECT
+        1
+        FROM
+        wms_purchase_detail wp
+        WHERE
+        ws.sku_id = wp.sku_id
+        AND ws.ware_id = wp.ware_id
+        AND wp.id IN
+        <foreach collection="detailIds" separator="," open="(" close=")" item="id">
+            #{id}
+        </foreach>  -- 满足这三个条件的 ws 再进行更新
+
+        )
+    </update>
 </mapper>

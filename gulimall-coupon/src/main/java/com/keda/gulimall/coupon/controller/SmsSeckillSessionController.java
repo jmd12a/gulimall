@@ -35,7 +35,7 @@ public class SmsSeckillSessionController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("coupon:smsseckillsession:list")
+    // @RequiresPermissions("coupon:smsseckillsession:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = smsSeckillSessionService.queryPage(params);
 
@@ -47,7 +47,7 @@ public class SmsSeckillSessionController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("coupon:smsseckillsession:info")
+    // @RequiresPermissions("coupon:smsseckillsession:info")
     public R info(@PathVariable("id") Long id){
 		SmsSeckillSessionEntity smsSeckillSession = smsSeckillSessionService.getById(id);
 
@@ -58,7 +58,7 @@ public class SmsSeckillSessionController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("coupon:smsseckillsession:save")
+    // @RequiresPermissions("coupon:smsseckillsession:save")
     public R save(@RequestBody SmsSeckillSessionEntity smsSeckillSession){
 		smsSeckillSessionService.save(smsSeckillSession);
 
@@ -69,7 +69,7 @@ public class SmsSeckillSessionController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("coupon:smsseckillsession:update")
+    // @RequiresPermissions("coupon:smsseckillsession:update")
     public R update(@RequestBody SmsSeckillSessionEntity smsSeckillSession){
 		smsSeckillSessionService.updateById(smsSeckillSession);
 
@@ -80,7 +80,7 @@ public class SmsSeckillSessionController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("coupon:smsseckillsession:delete")
+    // @RequiresPermissions("coupon:smsseckillsession:delete")
     public R delete(@RequestBody Long[] ids){
 		smsSeckillSessionService.removeByIds(Arrays.asList(ids));
 

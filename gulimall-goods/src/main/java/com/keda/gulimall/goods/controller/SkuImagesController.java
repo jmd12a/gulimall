@@ -35,7 +35,7 @@ public class SkuImagesController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("goods:skuimages:list")
+    // @RequiresPermissions("goods:skuimages:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = skuImagesService.queryPage(params);
 
@@ -47,7 +47,7 @@ public class SkuImagesController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("goods:skuimages:info")
+    // @RequiresPermissions("goods:skuimages:info")
     public R info(@PathVariable("id") Long id){
 		SkuImagesEntity skuImages = skuImagesService.getById(id);
 
@@ -58,7 +58,7 @@ public class SkuImagesController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("goods:skuimages:save")
+    // @RequiresPermissions("goods:skuimages:save")
     public R save(@RequestBody SkuImagesEntity skuImages){
 		skuImagesService.save(skuImages);
 
@@ -69,7 +69,7 @@ public class SkuImagesController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("goods:skuimages:update")
+    // @RequiresPermissions("goods:skuimages:update")
     public R update(@RequestBody SkuImagesEntity skuImages){
 		skuImagesService.updateById(skuImages);
 
@@ -80,7 +80,7 @@ public class SkuImagesController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("goods:skuimages:delete")
+    // @RequiresPermissions("goods:skuimages:delete")
     public R delete(@RequestBody Long[] ids){
 		skuImagesService.removeByIds(Arrays.asList(ids));
 

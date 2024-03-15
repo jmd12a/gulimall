@@ -26,7 +26,7 @@ import com.keda.common.utils.R;
  * @date 2023-05-13 23:05:04
  */
 @RestController
-@RequestMapping("member/umsmemberreceiveaddress")
+@RequestMapping("member/memberreceiveaddress")
 public class UmsMemberReceiveAddressController {
     @Autowired
     private UmsMemberReceiveAddressService umsMemberReceiveAddressService;
@@ -35,7 +35,7 @@ public class UmsMemberReceiveAddressController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("member:umsmemberreceiveaddress:list")
+    // @RequiresPermissions("member:umsmemberreceiveaddress:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = umsMemberReceiveAddressService.queryPage(params);
 
@@ -47,18 +47,18 @@ public class UmsMemberReceiveAddressController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("member:umsmemberreceiveaddress:info")
+    // @RequiresPermissions("member:umsmemberreceiveaddress:info")
     public R info(@PathVariable("id") Long id){
 		UmsMemberReceiveAddressEntity umsMemberReceiveAddress = umsMemberReceiveAddressService.getById(id);
 
-        return R.ok().put("umsMemberReceiveAddress", umsMemberReceiveAddress);
+        return R.ok().put("MemberReceiveAddress", umsMemberReceiveAddress);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("member:umsmemberreceiveaddress:save")
+    // @RequiresPermissions("member:umsmemberreceiveaddress:save")
     public R save(@RequestBody UmsMemberReceiveAddressEntity umsMemberReceiveAddress){
 		umsMemberReceiveAddressService.save(umsMemberReceiveAddress);
 
@@ -69,7 +69,7 @@ public class UmsMemberReceiveAddressController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("member:umsmemberreceiveaddress:update")
+    // @RequiresPermissions("member:umsmemberreceiveaddress:update")
     public R update(@RequestBody UmsMemberReceiveAddressEntity umsMemberReceiveAddress){
 		umsMemberReceiveAddressService.updateById(umsMemberReceiveAddress);
 
@@ -80,7 +80,7 @@ public class UmsMemberReceiveAddressController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("member:umsmemberreceiveaddress:delete")
+    // @RequiresPermissions("member:umsmemberreceiveaddress:delete")
     public R delete(@RequestBody Long[] ids){
 		umsMemberReceiveAddressService.removeByIds(Arrays.asList(ids));
 

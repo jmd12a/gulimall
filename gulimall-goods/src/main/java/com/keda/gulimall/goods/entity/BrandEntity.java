@@ -31,6 +31,7 @@ public class BrandEntity implements Serializable {
 	/**
 	 * 品牌id
 	 */
+	// UpdateVaildGroup.class, UpdateStatusVaildGroup.class起到一个标示的作用，当指定分组是这个的时候起作用
 	@NotNull(groups = {UpdateVaildGroup.class, UpdateStatusVaildGroup.class},message = "修改品牌Id不能为空")
 	@TableId(type = IdType.AUTO)
 	private Long brandId;

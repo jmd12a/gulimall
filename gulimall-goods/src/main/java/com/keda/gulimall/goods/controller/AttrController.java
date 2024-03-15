@@ -36,7 +36,7 @@ public class AttrController {
      * 列表
      */
     @RequestMapping("/{attrType}/list/{cateLogId}")
-    // @RequiresPermissions("goods:attr:list")
+    // // @RequiresPermissions("goods:attr:list")
     public R list(@RequestParam Map<String, Object> params,
                   @PathVariable("cateLogId") Long cateLogId,
                   @PathVariable("attrType") String attrType){
@@ -53,7 +53,7 @@ public class AttrController {
      * 信息
      */
     @RequestMapping("/info/{attrId}")
-    @RequiresPermissions("goods:attr:info")
+    // @RequiresPermissions("goods:attr:info")
     public R info(@PathVariable("attrId") Long attrId){
 
         AttrVo attrVo = attrService.getInfoById(attrId);
@@ -65,7 +65,7 @@ public class AttrController {
      * 保存
      */
     @RequestMapping("/save")
-    // @RequiresPermissions("goods:attr:save")
+    // // @RequiresPermissions("goods:attr:save")
     public R save(@RequestBody AttrVo attrVo){
 		attrService.saveDetail(attrVo);
 
@@ -76,7 +76,7 @@ public class AttrController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("goods:attr:update")
+    // @RequiresPermissions("goods:attr:update")
     public R update(@RequestBody AttrVo attr){
 		attrService.updateDetail(attr);
 
@@ -87,7 +87,7 @@ public class AttrController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("goods:attr:delete")
+    // @RequiresPermissions("goods:attr:delete")
     public R delete(@RequestBody Long[] attrIds){
 		attrService.removeByIds(Arrays.asList(attrIds));
 

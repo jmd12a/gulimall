@@ -35,7 +35,7 @@ public class OmsOrderOperateHistoryController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("order:omsorderoperatehistory:list")
+    // @RequiresPermissions("order:omsorderoperatehistory:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = omsOrderOperateHistoryService.queryPage(params);
 
@@ -47,7 +47,7 @@ public class OmsOrderOperateHistoryController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("order:omsorderoperatehistory:info")
+    // @RequiresPermissions("order:omsorderoperatehistory:info")
     public R info(@PathVariable("id") Long id){
 		OmsOrderOperateHistoryEntity omsOrderOperateHistory = omsOrderOperateHistoryService.getById(id);
 
@@ -58,7 +58,7 @@ public class OmsOrderOperateHistoryController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("order:omsorderoperatehistory:save")
+    // @RequiresPermissions("order:omsorderoperatehistory:save")
     public R save(@RequestBody OmsOrderOperateHistoryEntity omsOrderOperateHistory){
 		omsOrderOperateHistoryService.save(omsOrderOperateHistory);
 
@@ -69,7 +69,7 @@ public class OmsOrderOperateHistoryController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("order:omsorderoperatehistory:update")
+    // @RequiresPermissions("order:omsorderoperatehistory:update")
     public R update(@RequestBody OmsOrderOperateHistoryEntity omsOrderOperateHistory){
 		omsOrderOperateHistoryService.updateById(omsOrderOperateHistory);
 
@@ -80,7 +80,7 @@ public class OmsOrderOperateHistoryController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("order:omsorderoperatehistory:delete")
+    // @RequiresPermissions("order:omsorderoperatehistory:delete")
     public R delete(@RequestBody Long[] ids){
 		omsOrderOperateHistoryService.removeByIds(Arrays.asList(ids));
 

@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: wareService
+    name: ware-service
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -23,7 +23,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
-      id-type: assign_id
+      id-type: auto
   type-aliases-package: com.keda.gulimall.ware.dao # 配置别名包
   mapper-locations: classpath:/mapper/*/*.xml # 配置.xml文件的路径
 

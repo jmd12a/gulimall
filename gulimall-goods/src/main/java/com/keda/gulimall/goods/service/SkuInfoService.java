@@ -3,6 +3,7 @@ package com.keda.gulimall.goods.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.keda.common.utils.PageUtils;
 import com.keda.gulimall.goods.entity.SkuInfoEntity;
+import com.keda.gulimall.goods.vo.SpuSaveVo;
 
 import java.util.Map;
 
@@ -16,5 +17,7 @@ import java.util.Map;
 public interface SkuInfoService extends IService<SkuInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils queryPageWithCondition(Map<String, Object> params);
 }
 

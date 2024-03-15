@@ -9,6 +9,7 @@ import com.keda.gulimall.thirdParty.service.OssService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,7 +27,6 @@ public class OssServiceImpl implements OssService {
 
     @Override
     public Map upload() {
-
 
         // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
         String endpoint = "oss-cn-hangzhou.aliyuncs.com";

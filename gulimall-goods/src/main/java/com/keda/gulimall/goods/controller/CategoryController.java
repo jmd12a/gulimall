@@ -48,7 +48,7 @@ public class CategoryController {
         return R.ok().put("data", categoryEntities);
     }
     /*@RequestMapping("/list")
-    @RequiresPermissions("goods:category:list")
+    // @RequiresPermissions("goods:category:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = categoryService.queryPage(params);
 
@@ -60,7 +60,7 @@ public class CategoryController {
      * 信息
      */
     @RequestMapping("/info/{catId}")
-    @RequiresPermissions("goods:category:info")
+    // @RequiresPermissions("goods:category:info")
     public R info(@PathVariable("catId") Long catId){
 		CategoryEntity category = categoryService.getById(catId);
 
@@ -71,7 +71,7 @@ public class CategoryController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("goods:category:save")
+    // @RequiresPermissions("goods:category:save")
     public R save(@RequestBody CategoryEntity category){
 		categoryService.save(category);
 

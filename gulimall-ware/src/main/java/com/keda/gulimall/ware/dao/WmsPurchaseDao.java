@@ -3,6 +3,9 @@ package com.keda.gulimall.ware.dao;
 import com.keda.gulimall.ware.entity.WmsPurchaseEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.ArrayList;
 
 /**
  * 采购信息
@@ -13,5 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface WmsPurchaseDao extends BaseMapper<WmsPurchaseEntity> {
-	
+
+    void addRepertoryByPurDetailId(@Param("detailIds") ArrayList<Long> sucPurDetailIds);
 }

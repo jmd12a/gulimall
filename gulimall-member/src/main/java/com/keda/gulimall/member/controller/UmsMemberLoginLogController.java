@@ -26,7 +26,7 @@ import com.keda.common.utils.R;
  * @date 2023-05-13 23:05:04
  */
 @RestController
-@RequestMapping("member/umsmemberloginlog")
+@RequestMapping("member/memberloginlog")
 public class UmsMemberLoginLogController {
     @Autowired
     private UmsMemberLoginLogService umsMemberLoginLogService;
@@ -35,7 +35,7 @@ public class UmsMemberLoginLogController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("member:umsmemberloginlog:list")
+    // @RequiresPermissions("member:umsmemberloginlog:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = umsMemberLoginLogService.queryPage(params);
 
@@ -47,18 +47,18 @@ public class UmsMemberLoginLogController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("member:umsmemberloginlog:info")
+    // @RequiresPermissions("member:umsmemberloginlog:info")
     public R info(@PathVariable("id") Long id){
 		UmsMemberLoginLogEntity umsMemberLoginLog = umsMemberLoginLogService.getById(id);
 
-        return R.ok().put("umsMemberLoginLog", umsMemberLoginLog);
+        return R.ok().put("MemberLoginLog", umsMemberLoginLog);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("member:umsmemberloginlog:save")
+    // @RequiresPermissions("member:umsmemberloginlog:save")
     public R save(@RequestBody UmsMemberLoginLogEntity umsMemberLoginLog){
 		umsMemberLoginLogService.save(umsMemberLoginLog);
 
@@ -69,7 +69,7 @@ public class UmsMemberLoginLogController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("member:umsmemberloginlog:update")
+    // @RequiresPermissions("member:umsmemberloginlog:update")
     public R update(@RequestBody UmsMemberLoginLogEntity umsMemberLoginLog){
 		umsMemberLoginLogService.updateById(umsMemberLoginLog);
 
@@ -80,7 +80,7 @@ public class UmsMemberLoginLogController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("member:umsmemberloginlog:delete")
+    // @RequiresPermissions("member:umsmemberloginlog:delete")
     public R delete(@RequestBody Long[] ids){
 		umsMemberLoginLogService.removeByIds(Arrays.asList(ids));
 

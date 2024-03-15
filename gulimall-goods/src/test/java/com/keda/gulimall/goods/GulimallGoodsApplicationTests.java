@@ -93,10 +93,6 @@ class GulimallGoodsApplicationTests {
         });
     }
 
-    @Test
-    public void test3(){
-        List<AttrEntity> attrEntities = relationService.queryAttrByAttrGroupId(2);
-        System.out.println(attrEntities);
-    }
+
 
 }

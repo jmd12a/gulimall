@@ -1,15 +1,14 @@
 package com.keda.gulimall.coupon.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.keda.common.to.BoundsTo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.keda.gulimall.coupon.entity.SmsSpuBoundsEntity;
 import com.keda.gulimall.coupon.service.SmsSpuBoundsService;
@@ -35,7 +34,7 @@ public class SmsSpuBoundsController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("coupon:smsspubounds:list")
+    // @RequiresPermissions("coupon:smsspubounds:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = smsSpuBoundsService.queryPage(params);
 
@@ -47,7 +46,7 @@ public class SmsSpuBoundsController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("coupon:smsspubounds:info")
+    // @RequiresPermissions("coupon:smsspubounds:info")
     public R info(@PathVariable("id") Long id){
 		SmsSpuBoundsEntity smsSpuBounds = smsSpuBoundsService.getById(id);
 
@@ -58,8 +57,9 @@ public class SmsSpuBoundsController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("coupon:smsspubounds:save")
+    // @RequiresPermissions("coupon:smsspubounds:save")
     public R save(@RequestBody SmsSpuBoundsEntity smsSpuBounds){
+        smsSpuBounds.setWork(1); // 是否起作用,默认是起作用的
 		smsSpuBoundsService.save(smsSpuBounds);
 
         return R.ok();
@@ -69,7 +69,7 @@ public class SmsSpuBoundsController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("coupon:smsspubounds:update")
+    // @RequiresPermissions("coupon:smsspubounds:update")
     public R update(@RequestBody SmsSpuBoundsEntity smsSpuBounds){
 		smsSpuBoundsService.updateById(smsSpuBounds);
 
@@ -80,11 +80,21 @@ public class SmsSpuBoundsController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("coupon:smsspubounds:delete")
+    // @RequiresPermissions("coupon:smsspubounds:delete")
     public R delete(@RequestBody Long[] ids){
 		smsSpuBoundsService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }
+
+
+    /*@RequestMapping("/coupon/smsspubounds/saveByFegin")
+    public void saveSpuBounds(@RequestBody BoundsTo boundsTo){
+        SmsSpuBoundsEntity boundsEntity = new SmsSpuBoundsEntity();
+
+        BeanUtils.copyProperties(boundsTo,boundsEntity);
+        boundsEntity.setWork(1);
+
+    }*/
 
 }

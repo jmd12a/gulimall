@@ -35,7 +35,7 @@ public class OmsPaymentInfoController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("order:omspaymentinfo:list")
+    // @RequiresPermissions("order:omspaymentinfo:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = omsPaymentInfoService.queryPage(params);
 
@@ -47,7 +47,7 @@ public class OmsPaymentInfoController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("order:omspaymentinfo:info")
+    // @RequiresPermissions("order:omspaymentinfo:info")
     public R info(@PathVariable("id") Long id){
 		OmsPaymentInfoEntity omsPaymentInfo = omsPaymentInfoService.getById(id);
 
@@ -58,7 +58,7 @@ public class OmsPaymentInfoController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("order:omspaymentinfo:save")
+    // @RequiresPermissions("order:omspaymentinfo:save")
     public R save(@RequestBody OmsPaymentInfoEntity omsPaymentInfo){
 		omsPaymentInfoService.save(omsPaymentInfo);
 
@@ -69,7 +69,7 @@ public class OmsPaymentInfoController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("order:omspaymentinfo:update")
+    // @RequiresPermissions("order:omspaymentinfo:update")
     public R update(@RequestBody OmsPaymentInfoEntity omsPaymentInfo){
 		omsPaymentInfoService.updateById(omsPaymentInfo);
 
@@ -80,7 +80,7 @@ public class OmsPaymentInfoController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("order:omspaymentinfo:delete")
+    // @RequiresPermissions("order:omspaymentinfo:delete")
     public R delete(@RequestBody Long[] ids){
 		omsPaymentInfoService.removeByIds(Arrays.asList(ids));
 

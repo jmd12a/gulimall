@@ -35,7 +35,7 @@ public class SmsCouponSpuCategoryRelationController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("coupon:smscouponspucategoryrelation:list")
+    // @RequiresPermissions("coupon:smscouponspucategoryrelation:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = smsCouponSpuCategoryRelationService.queryPage(params);
 
@@ -47,7 +47,7 @@ public class SmsCouponSpuCategoryRelationController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("coupon:smscouponspucategoryrelation:info")
+    // @RequiresPermissions("coupon:smscouponspucategoryrelation:info")
     public R info(@PathVariable("id") Long id){
 		SmsCouponSpuCategoryRelationEntity smsCouponSpuCategoryRelation = smsCouponSpuCategoryRelationService.getById(id);
 
@@ -58,7 +58,7 @@ public class SmsCouponSpuCategoryRelationController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("coupon:smscouponspucategoryrelation:save")
+    // @RequiresPermissions("coupon:smscouponspucategoryrelation:save")
     public R save(@RequestBody SmsCouponSpuCategoryRelationEntity smsCouponSpuCategoryRelation){
 		smsCouponSpuCategoryRelationService.save(smsCouponSpuCategoryRelation);
 
@@ -69,7 +69,7 @@ public class SmsCouponSpuCategoryRelationController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("coupon:smscouponspucategoryrelation:update")
+    // @RequiresPermissions("coupon:smscouponspucategoryrelation:update")
     public R update(@RequestBody SmsCouponSpuCategoryRelationEntity smsCouponSpuCategoryRelation){
 		smsCouponSpuCategoryRelationService.updateById(smsCouponSpuCategoryRelation);
 
@@ -80,7 +80,7 @@ public class SmsCouponSpuCategoryRelationController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("coupon:smscouponspucategoryrelation:delete")
+    // @RequiresPermissions("coupon:smscouponspucategoryrelation:delete")
     public R delete(@RequestBody Long[] ids){
 		smsCouponSpuCategoryRelationService.removeByIds(Arrays.asList(ids));
 

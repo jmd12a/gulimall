@@ -3,13 +3,15 @@ package com.keda.gulimall.ware.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.keda.common.utils.ParamsUtils;
+import com.keda.gulimall.ware.vo.CompletedVo;
+import com.keda.gulimall.ware.vo.MergeVo;
+import com.keda.gulimall.ware.vo.ReceiveVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import com.keda.gulimall.ware.entity.WmsPurchaseEntity;
 import com.keda.gulimall.ware.service.WmsPurchaseService;
@@ -26,7 +28,7 @@ import com.keda.common.utils.R;
  * @date 2023-05-13 23:20:21
  */
 @RestController
-@RequestMapping("ware/wmspurchase")
+@RequestMapping("ware/purchase")
 public class WmsPurchaseController {
     @Autowired
     private WmsPurchaseService wmsPurchaseService;
@@ -35,7 +37,7 @@ public class WmsPurchaseController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("ware:wmspurchase:list")
+    // @RequiresPermissions("ware:wmspurchase:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = wmsPurchaseService.queryPage(params);
 
@@ -47,7 +49,7 @@ public class WmsPurchaseController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("ware:wmspurchase:info")
+    // @RequiresPermissions("ware:wmspurchase:info")
     public R info(@PathVariable("id") Long id){
 		WmsPurchaseEntity wmsPurchase = wmsPurchaseService.getById(id);
 
@@ -58,7 +60,7 @@ public class WmsPurchaseController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("ware:wmspurchase:save")
+    // @RequiresPermissions("ware:wmspurchase:save")
     public R save(@RequestBody WmsPurchaseEntity wmsPurchase){
 		wmsPurchaseService.save(wmsPurchase);
 
@@ -69,7 +71,7 @@ public class WmsPurchaseController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("ware:wmspurchase:update")
+    // @RequiresPermissions("ware:wmspurchase:update")
     public R update(@RequestBody WmsPurchaseEntity wmsPurchase){
 		wmsPurchaseService.updateById(wmsPurchase);
 
@@ -80,10 +82,45 @@ public class WmsPurchaseController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("ware:wmspurchase:delete")
+    // @RequiresPermissions("ware:wmspurchase:delete")
     public R delete(@RequestBody Long[] ids){
 		wmsPurchaseService.removeByIds(Arrays.asList(ids));
 
+        return R.ok();
+    }
+
+    @RequestMapping("/unreceive/list")
+    public PageUtils unreceiveList(@RequestParam Map<String, Object> params){
+
+        Page<WmsPurchaseEntity> page = ParamsUtils.acqPage(params);
+
+        wmsPurchaseService.page(page,new QueryWrapper<WmsPurchaseEntity>().in("status", Arrays.asList(0, 1)));
+
+
+        return new PageUtils(page);
+
+    }
+
+    @PostMapping("/merge")
+    public R merge(@RequestBody MergeVo merge){
+
+        wmsPurchaseService.merge(merge);
+
+        return R.ok();
+    }
+
+    @PostMapping("/receive")
+    public R receivePurchase(@RequestBody @Validated ReceiveVo receiveVo){
+
+        wmsPurchaseService.receivePurchase(receiveVo);
+
+        return R.ok();
+    }
+
+    @PostMapping("/completed")
+    public R completedPurchase(@RequestBody @Validated CompletedVo completedVo){
+
+        wmsPurchaseService.completedPurchase(completedVo);
         return R.ok();
     }
 

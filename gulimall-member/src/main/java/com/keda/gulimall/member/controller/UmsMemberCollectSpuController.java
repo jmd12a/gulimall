@@ -26,7 +26,7 @@ import com.keda.common.utils.R;
  * @date 2023-05-13 23:05:04
  */
 @RestController
-@RequestMapping("member/umsmembercollectspu")
+@RequestMapping("member/membercollectspu")
 public class UmsMemberCollectSpuController {
     @Autowired
     private UmsMemberCollectSpuService umsMemberCollectSpuService;
@@ -35,7 +35,7 @@ public class UmsMemberCollectSpuController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("member:umsmembercollectspu:list")
+    // @RequiresPermissions("member:umsmembercollectspu:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = umsMemberCollectSpuService.queryPage(params);
 
@@ -47,18 +47,18 @@ public class UmsMemberCollectSpuController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("member:umsmembercollectspu:info")
+    // @RequiresPermissions("member:umsmembercollectspu:info")
     public R info(@PathVariable("id") Long id){
 		UmsMemberCollectSpuEntity umsMemberCollectSpu = umsMemberCollectSpuService.getById(id);
 
-        return R.ok().put("umsMemberCollectSpu", umsMemberCollectSpu);
+        return R.ok().put("MemberCollectSpu", umsMemberCollectSpu);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("member:umsmembercollectspu:save")
+    // @RequiresPermissions("member:umsmembercollectspu:save")
     public R save(@RequestBody UmsMemberCollectSpuEntity umsMemberCollectSpu){
 		umsMemberCollectSpuService.save(umsMemberCollectSpu);
 
@@ -69,7 +69,7 @@ public class UmsMemberCollectSpuController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("member:umsmembercollectspu:update")
+    // @RequiresPermissions("member:umsmembercollectspu:update")
     public R update(@RequestBody UmsMemberCollectSpuEntity umsMemberCollectSpu){
 		umsMemberCollectSpuService.updateById(umsMemberCollectSpu);
 
@@ -80,7 +80,7 @@ public class UmsMemberCollectSpuController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("member:umsmembercollectspu:delete")
+    // @RequiresPermissions("member:umsmembercollectspu:delete")
     public R delete(@RequestBody Long[] ids){
 		umsMemberCollectSpuService.removeByIds(Arrays.asList(ids));
 

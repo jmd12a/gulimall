@@ -35,7 +35,7 @@ public class SmsCouponSpuRelationController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("coupon:smscouponspurelation:list")
+    // @RequiresPermissions("coupon:smscouponspurelation:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = smsCouponSpuRelationService.queryPage(params);
 
@@ -47,7 +47,7 @@ public class SmsCouponSpuRelationController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("coupon:smscouponspurelation:info")
+    // @RequiresPermissions("coupon:smscouponspurelation:info")
     public R info(@PathVariable("id") Long id){
 		SmsCouponSpuRelationEntity smsCouponSpuRelation = smsCouponSpuRelationService.getById(id);
 
@@ -58,7 +58,7 @@ public class SmsCouponSpuRelationController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("coupon:smscouponspurelation:save")
+    // @RequiresPermissions("coupon:smscouponspurelation:save")
     public R save(@RequestBody SmsCouponSpuRelationEntity smsCouponSpuRelation){
 		smsCouponSpuRelationService.save(smsCouponSpuRelation);
 
@@ -69,7 +69,7 @@ public class SmsCouponSpuRelationController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("coupon:smscouponspurelation:update")
+    // @RequiresPermissions("coupon:smscouponspurelation:update")
     public R update(@RequestBody SmsCouponSpuRelationEntity smsCouponSpuRelation){
 		smsCouponSpuRelationService.updateById(smsCouponSpuRelation);
 
@@ -80,7 +80,7 @@ public class SmsCouponSpuRelationController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("coupon:smscouponspurelation:delete")
+    // @RequiresPermissions("coupon:smscouponspurelation:delete")
     public R delete(@RequestBody Long[] ids){
 		smsCouponSpuRelationService.removeByIds(Arrays.asList(ids));
 

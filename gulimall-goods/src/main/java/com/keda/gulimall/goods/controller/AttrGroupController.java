@@ -11,6 +11,7 @@ import com.keda.gulimall.goods.entity.AttrAttrgroupRelationEntity;
 import com.keda.gulimall.goods.entity.AttrEntity;
 import com.keda.gulimall.goods.service.AttrAttrgroupRelationService;
 import com.keda.gulimall.goods.service.AttrService;
+import com.keda.gulimall.goods.vo.AttrGroupVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -65,7 +66,7 @@ public class AttrGroupController {
      * 信息
      */
     @GetMapping ("/info/{attrGroupId}")
-    @RequiresPermissions("goods:attrgroup:info")
+    // @RequiresPermissions("goods:attrgroup:info")
     public R info(@PathVariable("attrGroupId") Long attrGroupId){
 		AttrGroupEntity attrGroup = attrGroupService.getById(attrGroupId);
 
@@ -83,7 +84,7 @@ public class AttrGroupController {
      * 保存
      */
     @PostMapping("/save")
-    @RequiresPermissions("goods:attrgroup:save")
+    // @RequiresPermissions("goods:attrgroup:save")
     public R save(@RequestBody AttrGroupEntity attrGroup){
 		attrGroupService.save(attrGroup);
 
@@ -94,7 +95,7 @@ public class AttrGroupController {
      * 修改
      */
     @PostMapping("/update")
-    @RequiresPermissions("goods:attrgroup:update")
+    // @RequiresPermissions("goods:attrgroup:update")
     public R update(@RequestBody AttrGroupEntity attrGroup){
 		attrGroupService.updateById(attrGroup);
 
@@ -105,7 +106,7 @@ public class AttrGroupController {
      * 删除
      */
     @DeleteMapping("/delete")
-    @RequiresPermissions("goods:attrgroup:delete")
+    // @RequiresPermissions("goods:attrgroup:delete")
     public R delete(@RequestBody Long[] attrGroupIds){
 		attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
 
@@ -167,6 +168,14 @@ public class AttrGroupController {
             return R.ok();
         }
         return R.error();
+    }
+
+    @GetMapping("/{categoryId}/withattr")
+    public R getAttrGroupWithAttr(@PathVariable("categoryId") String categoryId){
+
+        List<AttrGroupVo> attrGroups = attrGroupService.getAttrGroupWithAttr(categoryId);
+
+        return R.ok().put("data",attrGroups);
     }
 
 }

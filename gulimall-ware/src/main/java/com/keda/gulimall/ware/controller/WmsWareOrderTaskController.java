@@ -26,7 +26,7 @@ import com.keda.common.utils.R;
  * @date 2023-05-13 23:20:21
  */
 @RestController
-@RequestMapping("ware/wmswareordertask")
+@RequestMapping("ware/wareordertask")
 public class WmsWareOrderTaskController {
     @Autowired
     private WmsWareOrderTaskService wmsWareOrderTaskService;
@@ -35,7 +35,7 @@ public class WmsWareOrderTaskController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("ware:wmswareordertask:list")
+    // @RequiresPermissions("ware:wmswareordertask:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = wmsWareOrderTaskService.queryPage(params);
 
@@ -47,7 +47,7 @@ public class WmsWareOrderTaskController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("ware:wmswareordertask:info")
+    // @RequiresPermissions("ware:wmswareordertask:info")
     public R info(@PathVariable("id") Long id){
 		WmsWareOrderTaskEntity wmsWareOrderTask = wmsWareOrderTaskService.getById(id);
 
@@ -58,7 +58,7 @@ public class WmsWareOrderTaskController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("ware:wmswareordertask:save")
+    // @RequiresPermissions("ware:wmswareordertask:save")
     public R save(@RequestBody WmsWareOrderTaskEntity wmsWareOrderTask){
 		wmsWareOrderTaskService.save(wmsWareOrderTask);
 
@@ -69,7 +69,7 @@ public class WmsWareOrderTaskController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("ware:wmswareordertask:update")
+    // @RequiresPermissions("ware:wmswareordertask:update")
     public R update(@RequestBody WmsWareOrderTaskEntity wmsWareOrderTask){
 		wmsWareOrderTaskService.updateById(wmsWareOrderTask);
 
@@ -80,7 +80,7 @@ public class WmsWareOrderTaskController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("ware:wmswareordertask:delete")
+    // @RequiresPermissions("ware:wmswareordertask:delete")
     public R delete(@RequestBody Long[] ids){
 		wmsWareOrderTaskService.removeByIds(Arrays.asList(ids));
 

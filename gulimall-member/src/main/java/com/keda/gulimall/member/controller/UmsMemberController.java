@@ -26,7 +26,7 @@ import com.keda.common.utils.R;
  * @date 2023-05-13 23:05:04
  */
 @RestController
-@RequestMapping("member/umsmember")
+@RequestMapping("member/member")
 public class UmsMemberController {
     @Autowired
     private UmsMemberService umsMemberService;
@@ -35,7 +35,7 @@ public class UmsMemberController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("member:umsmember:list")
+    // @RequiresPermissions("member:umsmember:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = umsMemberService.queryPage(params);
 
@@ -47,18 +47,18 @@ public class UmsMemberController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("member:umsmember:info")
+    // @RequiresPermissions("member:umsmember:info")
     public R info(@PathVariable("id") Long id){
 		UmsMemberEntity umsMember = umsMemberService.getById(id);
 
-        return R.ok().put("umsMember", umsMember);
+        return R.ok().put("Member", umsMember);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("member:umsmember:save")
+    // @RequiresPermissions("member:umsmember:save")
     public R save(@RequestBody UmsMemberEntity umsMember){
 		umsMemberService.save(umsMember);
 
@@ -69,7 +69,7 @@ public class UmsMemberController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("member:umsmember:update")
+    // @RequiresPermissions("member:umsmember:update")
     public R update(@RequestBody UmsMemberEntity umsMember){
 		umsMemberService.updateById(umsMember);
 
@@ -80,7 +80,7 @@ public class UmsMemberController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("member:umsmember:delete")
+    // @RequiresPermissions("member:umsmember:delete")
     public R delete(@RequestBody Long[] ids){
 		umsMemberService.removeByIds(Arrays.asList(ids));
 

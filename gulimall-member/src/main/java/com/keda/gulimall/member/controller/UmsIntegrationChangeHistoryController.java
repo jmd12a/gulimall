@@ -27,7 +27,7 @@ import com.keda.common.utils.R;
  * @date 2023-05-13 23:05:04
  */
 @RestController
-@RequestMapping("member/umsintegrationchangehistory")
+@RequestMapping("member/integrationchangehistory")
 public class UmsIntegrationChangeHistoryController {
     @Autowired
     private UmsIntegrationChangeHistoryService umsIntegrationChangeHistoryService;
@@ -36,7 +36,7 @@ public class UmsIntegrationChangeHistoryController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("member:umsintegrationchangehistory:list")
+    // @RequiresPermissions("member:umsintegrationchangehistory:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = umsIntegrationChangeHistoryService.queryPage(params);
 
@@ -48,18 +48,18 @@ public class UmsIntegrationChangeHistoryController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("member:umsintegrationchangehistory:info")
+    // @RequiresPermissions("member:umsintegrationchangehistory:info")
     public R info(@PathVariable("id") Long id){
 		UmsIntegrationChangeHistoryEntity umsIntegrationChangeHistory = umsIntegrationChangeHistoryService.getById(id);
 
-        return R.ok().put("umsIntegrationChangeHistory", umsIntegrationChangeHistory);
+        return R.ok().put("IntegrationChangeHistory", umsIntegrationChangeHistory);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("member:umsintegrationchangehistory:save")
+    // @RequiresPermissions("member:umsintegrationchangehistory:save")
     public R save(@RequestBody UmsIntegrationChangeHistoryEntity umsIntegrationChangeHistory){
 		umsIntegrationChangeHistoryService.save(umsIntegrationChangeHistory);
 
@@ -70,7 +70,7 @@ public class UmsIntegrationChangeHistoryController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("member:umsintegrationchangehistory:update")
+    // @RequiresPermissions("member:umsintegrationchangehistory:update")
     public R update(@RequestBody UmsIntegrationChangeHistoryEntity umsIntegrationChangeHistory){
 		umsIntegrationChangeHistoryService.updateById(umsIntegrationChangeHistory);
 
@@ -81,7 +81,7 @@ public class UmsIntegrationChangeHistoryController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("member:umsintegrationchangehistory:delete")
+    // @RequiresPermissions("member:umsintegrationchangehistory:delete")
     public R delete(@RequestBody Long[] ids){
 		umsIntegrationChangeHistoryService.removeByIds(Arrays.asList(ids));
 

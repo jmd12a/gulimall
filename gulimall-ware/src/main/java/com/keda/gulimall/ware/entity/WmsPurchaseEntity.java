@@ -1,7 +1,6 @@
 package com.keda.gulimall.ware.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.math.BigDecimal;
 import java.io.Serializable;
@@ -23,7 +22,7 @@ public class WmsPurchaseEntity implements Serializable {
 	/**
 	 * 采购单id
 	 */
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Long id;
 	/**
 	 * 采购人id
@@ -56,10 +55,12 @@ public class WmsPurchaseEntity implements Serializable {
 	/**
 	 * 创建日期
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	private Date createTime;
 	/**
 	 * 更新日期
 	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private Date updateTime;
 
 }

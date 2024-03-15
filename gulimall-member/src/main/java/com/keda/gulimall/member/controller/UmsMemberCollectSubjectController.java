@@ -26,7 +26,7 @@ import com.keda.common.utils.R;
  * @date 2023-05-13 23:05:04
  */
 @RestController
-@RequestMapping("member/umsmembercollectsubject")
+@RequestMapping("member/membercollectsubject")
 public class UmsMemberCollectSubjectController {
     @Autowired
     private UmsMemberCollectSubjectService umsMemberCollectSubjectService;
@@ -35,7 +35,7 @@ public class UmsMemberCollectSubjectController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("member:umsmembercollectsubject:list")
+    // @RequiresPermissions("member:umsmembercollectsubject:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = umsMemberCollectSubjectService.queryPage(params);
 
@@ -47,18 +47,18 @@ public class UmsMemberCollectSubjectController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("member:umsmembercollectsubject:info")
+    // @RequiresPermissions("member:umsmembercollectsubject:info")
     public R info(@PathVariable("id") Long id){
 		UmsMemberCollectSubjectEntity umsMemberCollectSubject = umsMemberCollectSubjectService.getById(id);
 
-        return R.ok().put("umsMemberCollectSubject", umsMemberCollectSubject);
+        return R.ok().put("MemberCollectSubject", umsMemberCollectSubject);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("member:umsmembercollectsubject:save")
+    // @RequiresPermissions("member:umsmembercollectsubject:save")
     public R save(@RequestBody UmsMemberCollectSubjectEntity umsMemberCollectSubject){
 		umsMemberCollectSubjectService.save(umsMemberCollectSubject);
 
@@ -69,7 +69,7 @@ public class UmsMemberCollectSubjectController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("member:umsmembercollectsubject:update")
+    // @RequiresPermissions("member:umsmembercollectsubject:update")
     public R update(@RequestBody UmsMemberCollectSubjectEntity umsMemberCollectSubject){
 		umsMemberCollectSubjectService.updateById(umsMemberCollectSubject);
 
@@ -80,7 +80,7 @@ public class UmsMemberCollectSubjectController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("member:umsmembercollectsubject:delete")
+    // @RequiresPermissions("member:umsmembercollectsubject:delete")
     public R delete(@RequestBody Long[] ids){
 		umsMemberCollectSubjectService.removeByIds(Arrays.asList(ids));
 

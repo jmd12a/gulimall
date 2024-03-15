@@ -1,7 +1,6 @@
 package com.keda.gulimall.ware.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -22,7 +21,7 @@ public class WmsWareOrderTaskEntity implements Serializable {
 	/**
 	 * id
 	 */
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Long id;
 	/**
 	 * order_id
@@ -67,6 +66,8 @@ public class WmsWareOrderTaskEntity implements Serializable {
 	/**
 	 * create_time
 	 */
+
+	@TableField(fill = FieldFill.INSERT)
 	private Date createTime;
 	/**
 	 * 仓库id

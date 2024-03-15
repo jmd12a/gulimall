@@ -142,7 +142,7 @@ public class BrandController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("goods:brand:delete")
+    // @RequiresPermissions("goods:brand:delete")
     public R delete(@RequestBody @NotEmpty Long[] brandIds){
 		brandService.removeByIds(Arrays.asList(brandIds));
 

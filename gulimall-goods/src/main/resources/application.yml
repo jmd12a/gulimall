@@ -5,10 +5,12 @@
 #  datasource:
 #    druid:
 #      driver-class-name: com.mysql.cj.jdbc.Driver
-#      url: jdbc:mysql://192.168.153.128:3306/gulimall_pms?serverTimezone=UTC&characterEncoding=UTF8
+#      url: jdbc:mysql://192.168.153.128:3306/gulimall_pms?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF8
 #      username: root
 #      password: 122964
-#
+#  jackson:
+#    date-format: yyyy-MM-dd HH:mm:ss
+
 #mybatis-plus:
 #  configuration:
 #    map-underscore-to-camel-case: true

@@ -35,7 +35,7 @@ public class OmsOrderSettingController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("order:omsordersetting:list")
+    // @RequiresPermissions("order:omsordersetting:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = omsOrderSettingService.queryPage(params);
 
@@ -47,7 +47,7 @@ public class OmsOrderSettingController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("order:omsordersetting:info")
+    // @RequiresPermissions("order:omsordersetting:info")
     public R info(@PathVariable("id") Long id){
 		OmsOrderSettingEntity omsOrderSetting = omsOrderSettingService.getById(id);
 
@@ -58,7 +58,7 @@ public class OmsOrderSettingController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("order:omsordersetting:save")
+    // @RequiresPermissions("order:omsordersetting:save")
     public R save(@RequestBody OmsOrderSettingEntity omsOrderSetting){
 		omsOrderSettingService.save(omsOrderSetting);
 
@@ -69,7 +69,7 @@ public class OmsOrderSettingController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("order:omsordersetting:update")
+    // @RequiresPermissions("order:omsordersetting:update")
     public R update(@RequestBody OmsOrderSettingEntity omsOrderSetting){
 		omsOrderSettingService.updateById(omsOrderSetting);
 
@@ -80,7 +80,7 @@ public class OmsOrderSettingController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("order:omsordersetting:delete")
+    // @RequiresPermissions("order:omsordersetting:delete")
     public R delete(@RequestBody Long[] ids){
 		omsOrderSettingService.removeByIds(Arrays.asList(ids));
 

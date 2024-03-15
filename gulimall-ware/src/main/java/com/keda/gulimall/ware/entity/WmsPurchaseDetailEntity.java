@@ -1,5 +1,6 @@
 package com.keda.gulimall.ware.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -23,7 +24,7 @@ public class WmsPurchaseDetailEntity implements Serializable {
 	/**
 	 * 
 	 */
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Long id;
 	/**
 	 * 采购单id
@@ -49,5 +50,10 @@ public class WmsPurchaseDetailEntity implements Serializable {
 	 * 状态[0新建，1已分配，2正在采购，3已完成，4采购失败]
 	 */
 	private Integer status;
+
+	/*
+	*  采购失败，则为采购失败的原因
+	* */
+	private String reason;
 
 }

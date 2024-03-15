@@ -35,7 +35,7 @@ public class SmsSeckillSkuNoticeController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("coupon:smsseckillskunotice:list")
+    // @RequiresPermissions("coupon:smsseckillskunotice:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = smsSeckillSkuNoticeService.queryPage(params);
 
@@ -47,7 +47,7 @@ public class SmsSeckillSkuNoticeController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("coupon:smsseckillskunotice:info")
+    // @RequiresPermissions("coupon:smsseckillskunotice:info")
     public R info(@PathVariable("id") Long id){
 		SmsSeckillSkuNoticeEntity smsSeckillSkuNotice = smsSeckillSkuNoticeService.getById(id);
 
@@ -58,7 +58,7 @@ public class SmsSeckillSkuNoticeController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("coupon:smsseckillskunotice:save")
+    // @RequiresPermissions("coupon:smsseckillskunotice:save")
     public R save(@RequestBody SmsSeckillSkuNoticeEntity smsSeckillSkuNotice){
 		smsSeckillSkuNoticeService.save(smsSeckillSkuNotice);
 
@@ -69,7 +69,7 @@ public class SmsSeckillSkuNoticeController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("coupon:smsseckillskunotice:update")
+    // @RequiresPermissions("coupon:smsseckillskunotice:update")
     public R update(@RequestBody SmsSeckillSkuNoticeEntity smsSeckillSkuNotice){
 		smsSeckillSkuNoticeService.updateById(smsSeckillSkuNotice);
 
@@ -80,7 +80,7 @@ public class SmsSeckillSkuNoticeController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("coupon:smsseckillskunotice:delete")
+    // @RequiresPermissions("coupon:smsseckillskunotice:delete")
     public R delete(@RequestBody Long[] ids){
 		smsSeckillSkuNoticeService.removeByIds(Arrays.asList(ids));
 

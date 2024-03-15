@@ -35,7 +35,7 @@ public class OmsOrderReturnApplyController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("order:omsorderreturnapply:list")
+    // @RequiresPermissions("order:omsorderreturnapply:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = omsOrderReturnApplyService.queryPage(params);
 
@@ -47,7 +47,7 @@ public class OmsOrderReturnApplyController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("order:omsorderreturnapply:info")
+    // @RequiresPermissions("order:omsorderreturnapply:info")
     public R info(@PathVariable("id") Long id){
 		OmsOrderReturnApplyEntity omsOrderReturnApply = omsOrderReturnApplyService.getById(id);
 
@@ -58,7 +58,7 @@ public class OmsOrderReturnApplyController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("order:omsorderreturnapply:save")
+    // @RequiresPermissions("order:omsorderreturnapply:save")
     public R save(@RequestBody OmsOrderReturnApplyEntity omsOrderReturnApply){
 		omsOrderReturnApplyService.save(omsOrderReturnApply);
 
@@ -69,7 +69,7 @@ public class OmsOrderReturnApplyController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("order:omsorderreturnapply:update")
+    // @RequiresPermissions("order:omsorderreturnapply:update")
     public R update(@RequestBody OmsOrderReturnApplyEntity omsOrderReturnApply){
 		omsOrderReturnApplyService.updateById(omsOrderReturnApply);
 
@@ -80,7 +80,7 @@ public class OmsOrderReturnApplyController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("order:omsorderreturnapply:delete")
+    // @RequiresPermissions("order:omsorderreturnapply:delete")
     public R delete(@RequestBody Long[] ids){
 		omsOrderReturnApplyService.removeByIds(Arrays.asList(ids));
 

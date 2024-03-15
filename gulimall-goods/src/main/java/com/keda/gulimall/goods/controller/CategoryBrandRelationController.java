@@ -1,8 +1,10 @@
 package com.keda.gulimall.goods.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.keda.gulimall.goods.entity.BrandEntity;
@@ -68,7 +70,7 @@ public class CategoryBrandRelationController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("goods:categorybrandrelation:info")
+    // // @RequiresPermissions("goods:categorybrandrelation:info")
     public R info(@PathVariable("id") Long id){
 		CategoryBrandRelationEntity categoryBrandRelation = categoryBrandRelationService.getById(id);
 
@@ -79,7 +81,7 @@ public class CategoryBrandRelationController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("goods:categorybrandrelation:save")
+    // // @RequiresPermissions("goods:categorybrandrelation:save")
     public R save(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
         CategoryEntity category = categoryService.getById(categoryBrandRelation.getCatelogId());
         BrandEntity brand = brandService.getById(categoryBrandRelation.getBrandId());
@@ -94,8 +96,8 @@ public class CategoryBrandRelationController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    @RequiresPermissions("goods:categorybrandrelation:update")
+    // @RequestMapping("/update")
+    // // @RequiresPermissions("goods:categorybrandrelation:update")
     public R update(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
 		categoryBrandRelationService.updateById(categoryBrandRelation);
 
@@ -106,11 +108,31 @@ public class CategoryBrandRelationController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("goods:categorybrandrelation:delete")
+    // // @RequiresPermissions("goods:categorybrandrelation:delete")
     public R delete(@RequestBody Long[] ids){
 		categoryBrandRelationService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }
+
+    @RequestMapping("/brands/list")
+    public R getBrandsListByCategoryId(@RequestParam("catId") Long categoryId){
+
+        List<CategoryBrandRelationEntity> relationList = categoryBrandRelationService.list(new LambdaUpdateWrapper<CategoryBrandRelationEntity>()
+                .eq(CategoryBrandRelationEntity::getCatelogId, categoryId));
+
+        List<Long> brandIds = relationList.stream().map(cateBrandRelation -> {
+            return cateBrandRelation.getBrandId();
+        }).collect(Collectors.toList());
+
+        if (brandIds.size() == 0) {
+            return R.ok().put("data",new ArrayList<>());
+        }
+        List<BrandEntity> brandList = brandService.list(new LambdaUpdateWrapper<BrandEntity>()
+                .in(BrandEntity::getBrandId, brandIds));
+
+        return R.ok().put("data",brandList);
+    }
+
 
 }

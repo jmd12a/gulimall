@@ -31,6 +31,20 @@ spring:
           filters:
             - RewritePath=/api/?(?<segment>.*),/$\{segment} # 路径重写，把api替换为空
 
+        - id: member-route
+          uri: lb://member-service
+          predicates:
+            - Path=/api/member/** # gateway在路由的时候，是按照配置顺序进行路由的，如果跟路径相同的路由，越详细的越要写在前边，防止路由被覆盖
+          filters:
+            - RewritePath=/api/?(?<segment>.*),/$\{segment} # 路径重写，把api替换为空
+
+        - id: ware-route
+          uri: lb://ware-service
+          predicates:
+            - Path=/api/ware/** # gateway在路由的时候，是按照配置顺序进行路由的，如果跟路径相同的路由，越详细的越要写在前边，防止路由被覆盖
+          filters:
+            - RewritePath=/api/?(?<segment>.*),/$\{segment} # 路径重写，把api替换为空
+
         - id: api-route
           uri: lb://renren-fast
           predicates:
