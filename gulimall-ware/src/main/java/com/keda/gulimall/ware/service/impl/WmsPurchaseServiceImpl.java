@@ -1,9 +1,15 @@
 package com.keda.gulimall.ware.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.keda.common.Biz.WareConstant;
+import com.keda.gulimall.fegin.feginClients.PmsSkuInfoClient;
 import com.keda.gulimall.ware.common.PurchaseDetailEnum;
 import com.keda.gulimall.ware.common.PurchaseEnum;
+import com.keda.gulimall.ware.dao.WmsWareInfoDao;
+import com.keda.gulimall.ware.dao.WmsWareSkuDao;
+import com.keda.gulimall.ware.entity.WmsWareSkuEntity;
 import com.keda.gulimall.ware.vo.CompletedVo;
 import com.keda.gulimall.ware.dao.WmsPurchaseDetailDao;
 import com.keda.gulimall.ware.entity.WmsPurchaseDetailEntity;
@@ -37,6 +43,15 @@ public class WmsPurchaseServiceImpl extends ServiceImpl<WmsPurchaseDao, WmsPurch
     @Resource
     private WmsPurchaseDao wmsPurchaseDao;
 
+    @Resource
+    private WmsWareSkuDao wmsWareSkuDao;
+
+    @Resource
+    private PmsSkuInfoClient pmsSkuInfoClient;
+
+    @Resource
+    private WmsWareInfoDao wmsWareInfoDao;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<WmsPurchaseEntity> page = this.page(
@@ -69,11 +84,10 @@ public class WmsPurchaseServiceImpl extends ServiceImpl<WmsPurchaseDao, WmsPurch
         Long purchaseId = merge.getPurchaseId();
         Long wareId = purchaseDetails.get(0).getWareId();
 
-
         if (purchaseId == null){
             // 如果没有传入采购单id就新建
             WmsPurchaseEntity entity = new WmsPurchaseEntity();
-            entity.setStatus(0);
+            entity.setStatus(WareConstant.PurchaseStatusEnum.CREATE.getCode());
             entity.setPriority(1);
             entity.setWareId(wareId);
 
@@ -91,8 +105,8 @@ public class WmsPurchaseServiceImpl extends ServiceImpl<WmsPurchaseDao, WmsPurch
                 throw new RuntimeException("采购需求所属仓库和要合并到的采购单所属仓库不同，无法合并");
             }
 
-            if (purchase.getStatus() != PurchaseEnum.NEW.getCode().intValue()
-                    || purchase.getStatus() != PurchaseEnum.ASSIGNED.getCode().intValue()) {
+            if (! (purchase.getStatus() == PurchaseEnum.NEW.getCode().intValue()
+                    || purchase.getStatus() == PurchaseEnum.ASSIGNED.getCode().intValue())) {
                 throw new RuntimeException("要合并到的采购单已被领取，无法合并");
             }
         }
@@ -169,14 +183,16 @@ public class WmsPurchaseServiceImpl extends ServiceImpl<WmsPurchaseDao, WmsPurch
 
                 isSuccess = false;
                 detailEntity.setReason(reason);
+                detailEntity.setStatus(status);
 
             }else {
                 //  采购成功的设值原因为空字符串
 
                 detailEntity.setReason("");
-
+                detailEntity.setStatus(PurchaseEnum.COMPLETED.getCode());
                 // 采购成功的将id放到列表中，后续将修改到库存表
                 sucPurDetailIds.add(detailId);
+
             }
 
             detailEntity.setId(detailId);
@@ -198,6 +214,69 @@ public class WmsPurchaseServiceImpl extends ServiceImpl<WmsPurchaseDao, WmsPurch
         else purchaseEntity.setStatus(PurchaseEnum.ABNORMAL.getCode());
 
         this.updateById(purchaseEntity);
+
+        List<WmsPurchaseDetailEntity> purchaseDetailEntities = purchaseDetailDao.selectBatchIds(sucPurDetailIds);
+
+
+        // 一个一个查之前，先排序，在记录skuId和wareId，然后，每次查之前判断上次是否查过,减少查询数据库次数
+
+       /* long skuId = 0l;
+        long wareId = 0l;
+
+        purchaseDetailEntities.sort(new Comparator<WmsPurchaseDetailEntity>() {
+            @Override
+            public int compare(WmsPurchaseDetailEntity o1, WmsPurchaseDetailEntity o2) {
+                Long l = o1.getWareId() - o2.getWareId();
+                Long l1 = o1.getSkuId() - o2.getSkuId();
+
+                if (l==0l) return l1.intValue();
+                else return l.intValue();
+
+            }
+        });
+        for (int i = 0; i < purchaseDetailEntities.size(); i++) {
+            WmsPurchaseDetailEntity detail = purchaseDetailEntities.get(i);
+
+            // 在判断之前，先判断下之前是否判断过，因为判断的因素，就是skuId和wareId，所以看这俩有一个和之前不相等，就对比过
+            if (detail.getSkuId() != skuId || detail.getWareId() != wareId){
+                // 判断这个采购详情，是否有对应的仓库和商品号
+                Integer count = wmsWareSkuDao.selectCount(new LambdaQueryWrapper<WmsWareSkuEntity>()
+                        .eq(WmsWareSkuEntity::getSkuId, detail.getSkuId())
+                        .eq(WmsWareSkuEntity::getWareId, detail.getWareId()));
+
+                if (count == 0){
+                    WmsWareSkuEntity wmsWareSkuEntity = new WmsWareSkuEntity();
+                    wmsWareSkuEntity.setWareId(detail.getWareId());
+                    wmsWareSkuEntity.setSkuId(detail.getSkuId());
+                    wmsWareSkuEntity.setStock(0);
+                    wmsWareSkuEntity.setSkuName(String.valueOf(pmsSkuInfoClient.queryName(detail.getSkuId()).get("name")));
+
+                    wmsWareSkuDao.insert(wmsWareSkuEntity);
+                }
+
+                skuId = detail.getSkuId();
+                wareId = detail.getWareId();
+            }
+
+        }*/
+
+        purchaseDetailEntities.forEach( detail ->{
+            Integer count = wmsWareSkuDao.selectCount(new LambdaQueryWrapper<WmsWareSkuEntity>()
+                    .eq(WmsWareSkuEntity::getSkuId, detail.getSkuId())
+                    .eq(WmsWareSkuEntity::getWareId, detail.getWareId()));
+
+            if (count == 0){
+                WmsWareSkuEntity wmsWareSkuEntity = new WmsWareSkuEntity();
+                wmsWareSkuEntity.setWareId(detail.getWareId());
+                wmsWareSkuEntity.setSkuId(detail.getSkuId());
+                wmsWareSkuEntity.setStock(0);
+                wmsWareSkuEntity.setSkuName(String.valueOf(pmsSkuInfoClient.queryName(detail.getSkuId()).get("name")));
+
+                wmsWareSkuDao.insert(wmsWareSkuEntity);
+            }
+
+
+        });
 
         // 增加采购成功的库存, 直接使用sql语句，update的多表更新
         wmsPurchaseDao.addRepertoryByPurDetailId(sucPurDetailIds);

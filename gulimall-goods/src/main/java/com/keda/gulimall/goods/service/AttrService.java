@@ -3,8 +3,10 @@ package com.keda.gulimall.goods.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.keda.common.utils.PageUtils;
 import com.keda.gulimall.goods.entity.AttrEntity;
+import com.keda.gulimall.goods.entity.ProductAttrValueEntity;
 import com.keda.gulimall.goods.vo.AttrVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,5 +27,7 @@ public interface AttrService extends IService<AttrEntity> {
     AttrVo getInfoById(Long attrId);
 
     void updateDetail(AttrVo attr);
+
+    boolean updateAttrValues(Long spuId, List<ProductAttrValueEntity> attrValues);
 }
 

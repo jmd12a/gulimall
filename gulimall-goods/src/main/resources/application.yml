@@ -1,5 +1,5 @@
-#server:
-#  port: 8082
+server:
+  port: 8082
 #
 #spring:
 #  datasource:
@@ -11,13 +11,37 @@
 #  jackson:
 #    date-format: yyyy-MM-dd HH:mm:ss
 
-#mybatis-plus:
-#  configuration:
-#    map-underscore-to-camel-case: true
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-#  global-config:
-#    db-config:
-#      id-type: assign_id
-#  type-aliases-package: com.keda.gulimall.goods.dao # 配置别名包
-#  mapper-locations: classpath:/mapper/*/*.xml # 配置.xml文件的路径
+spring:
+  thymeleaf:
+    cache: false
+  redis:
+    host: 192.168.153.128
+    port: 6379
+  cache:
+    # 缓存类型
+    type: redis
+    redis:
+      time-to-live: 3600000
+      # 是否使用前缀
+      use-key-prefix: true
+      # 是否缓存空值，防止缓存穿透
+      cache-null-values: true
+
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    db-config:
+      id-type: assign_id
+  type-aliases-package: com.keda.gulimall.goods.dao # 配置别名包
+  mapper-locations: classpath:/mapper/*/*.xml # 配置.xml文件的路径
+
+logging:
+  level:
+    org.apache.ibatis: info
+    org.mybatis.spring.SqlSessionFactoryBean: info
+    sql: info
+
 

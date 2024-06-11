@@ -17,4 +17,21 @@
     </resultMap>
 
 
+
+    <select id="selectSpuInfoForProductEsModel" resultType="com.keda.gulimall.goods.common.ProductEsModel">
+        SELECT
+            si.brand_id,
+            ba.NAME brand_name,
+            ba.logo brand_image,
+            si.catalog_id AS CategoryId,
+            ce.NAME CategoryName
+        FROM
+            pms_spu_info AS si,
+            pms_brand AS ba,
+            pms_category AS ce
+        WHERE
+            si.brand_id = ba.brand_id
+          AND si.catalog_id = ce.cat_id
+          AND si.id = #{spuId}
+    </select>
 </mapper>

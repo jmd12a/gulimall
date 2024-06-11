@@ -1,0 +1,51 @@
+server:
+  port: 8087
+
+spring:
+  application:
+    name: search-service # 服务名称
+  profiles:
+    active: dev # 开发环境
+  thymeleaf:
+    suffix: .html
+  redis:
+    host: 192.168.153.128
+    port: 6379
+  cache:
+    # 缓存类型
+    type: redis
+    redis:
+      time-to-live: 3600000
+      # 是否使用前缀
+      use-key-prefix: true
+      # 是否缓存空值，防止缓存穿透
+      cache-null-values: true
+  cloud:
+    nacos:
+      server-addr: 192.168.153.128:8849 # nacos地址
+      discovery:
+        namespace: f0e965ab-d760-4f3e-aa80-d881b5ef84e3
+        group: dev
+#  datasource:
+#    druid:
+#      enable: false
+  #    druid:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://192.168.153.128:3306/gulimall_sms?serverTimezone=UTC&characterEncoding=UTF8
+#      username: root
+#      password: 122964
+
+#mybatis-plus:
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+#  global-config:
+#    db-config:
+#      id-type: assign_id
+#  # type-aliases-package: com.keda.gulimall.goods.dao # 配置别名包
+#  mapper-locations: classpath:/mapper/*/*.xml # 配置.xml文件的路径
+#
+#logging:
+#  level:
+#    root: warn
+#    server: warn

@@ -18,22 +18,9 @@
     </resultMap>
 
     <update id="addRepertoryByPurDetailId">
-        UPDATE wms_ware_sku ws
-        SET ws.stock = ws.stock + ( SELECT sum(sku_num) FROM wms_purchase_detail wp WHERE ws.sku_id = wp.sku_id AND ws.ware_id = wp.ware_id )
-        WHERE
-            EXISTS (
-                SELECT
-                    1
-                FROM
-                    wms_purchase_detail wp
-                WHERE
-                    ws.sku_id = wp.sku_id
-                  AND ws.ware_id = wp.ware_id
-                  AND wp.id IN 
-                <foreach collection="detailIds" separator="," open="(" close=")" item="id">
-                    #{id}
-                </foreach>
-                )
+        -- 更新wms_ware_sku表的所有数据，逐条进行检索，看那些数据符合条件。
+        -- 一个wms_ware_sku表的数据可能对应多个wms_purchase_detail表中的数据，
+        -- 满足ware_id、sku_id相同的数据匹配在一起，然后在判断这数据是否在该批量的采购需求中
         UPDATE wms_ware_sku ws
         SET ws.stock = ws.stock +
         (
@@ -63,7 +50,6 @@
         <foreach collection="detailIds" separator="," open="(" close=")" item="id">
             #{id}
         </foreach>  -- 满足这三个条件的 ws 再进行更新
-
         )
     </update>
 </mapper>

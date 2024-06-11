@@ -1,5 +1,6 @@
 package com.keda.gulimall.goods.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.keda.common.to.BoundsTo;
@@ -7,13 +8,25 @@ import com.keda.common.to.SkuReductionTo;
 import com.keda.common.utils.ParamsUtils;
 import com.keda.common.utils.R;
 import com.keda.gulimall.fegin.feginClients.BoundsClients;
+import com.keda.gulimall.goods.common.ElasticsearchOption;
+import com.keda.gulimall.goods.common.ProductEsModel;
 import com.keda.gulimall.goods.dao.*;
 import com.keda.gulimall.goods.entity.*;
 import com.keda.gulimall.goods.service.SpuImagesService;
 import com.keda.gulimall.goods.vo.*;
+import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.action.bulk.BulkItemResponse;
+import org.elasticsearch.action.bulk.BulkRequest;
+
+import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,6 +44,7 @@ import javax.annotation.Resource;
 
 
 @Service("spuInfoService")
+@Slf4j
 public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> implements SpuInfoService {
 
 
@@ -58,6 +72,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Resource
     private BoundsClients boundsClients;
+
+    @Resource
+    private RestHighLevelClient esClient;
 
 
     @Override
@@ -254,6 +271,56 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
 
         return pageUtils;
+    }
+
+
+
+    @Override
+    public Boolean up(Long spuId) {
+
+        List<ProductEsModel> skus = skuInfoDao.selectSkuInfoForProductEsModel(spuId);
+
+        ProductEsModel productEsModel = this.baseMapper.selectSpuInfoForProductEsModel(spuId);
+
+        String brandImage = productEsModel.getBrandImage();
+        String brandName = productEsModel.getBrandName();
+        String categoryName = productEsModel.getCategoryName();
+
+        BulkRequest bulkRequest = new BulkRequest();
+
+        skus.forEach(sku ->{
+            sku.setBrandName(brandName);
+            sku.setCategoryName(categoryName);
+            sku.setBrandImage(brandImage);
+            sku.setHotScore(0l);
+
+            IndexRequest indexRequest = new IndexRequest(ElasticsearchOption.PRODUCT_INDEX);
+            indexRequest.id(sku.getSkuId().toString());
+            indexRequest.source(JSON.toJSONString(sku), XContentType.JSON);
+
+            bulkRequest.add(indexRequest);
+        });
+
+        try {
+            BulkResponse bulkResponse = esClient.bulk(bulkRequest, ElasticsearchOption.COMMON_OPTIONS);
+
+            if (bulkResponse.hasFailures()) {
+                for (BulkItemResponse item : bulkResponse.getItems()) {
+                    if (item.isFailed()) {
+                        log.info("{} 上架失败, 错误信息为: {}",item.getId() ,item.getFailureMessage());
+                    }
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
+
+        SpuInfoEntity spuInfoEntity = new SpuInfoEntity();
+        spuInfoEntity.setId(spuId);
+        spuInfoEntity.setPublishStatus(1);
+        this.baseMapper.updateById(spuInfoEntity);
+
+        return true;
     }
 
 }

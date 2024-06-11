@@ -51,11 +51,24 @@ spring:
             - Path=/api/**
 #          filters:
 #            - AddRequestHeader=mubiao,14wOneyear
+
+        - id: good-search-route
+          uri: lb://search-service
+          predicates:
+            #- Host=gulimall # 根据Host进行断言，将来自于Host地址的请求转发给商品服务
+            - Path=/search/*
+          filters:
+            - RewritePath=/search/?(?<segment>.*),/$\{segment}
+
+        - id: good-web-route
+          uri: lb://goods-service
+          predicates:
+            - Host=gulimall # 根据Host进行断言，将来自于Host地址的请求转发给商品服务
       # default-filters: 针对全局的路由都生效
       globalcors: # 配置方式三，在配置文件中进行配置
         add-to-simple-url-handler-mapping: true # 让网关放行options的信息，这个信息主要是返回给浏览器允许跨域的
         cors-configurations:
-          '[/**]': # 跨域配置要处理哪些url的请求，这里设置的是处理所有的
+          '[/**]': # 跨域配置要处理哪些url的请求，应用于请求的地址,这里设置的是处理所有的
             allowedOrigins:
               - "http://localhost:8082" # 允许跨域的地址
               - "http://localhost:8083"

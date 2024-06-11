@@ -1,15 +1,13 @@
 package com.keda.gulimall.goods.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.keda.common.Biz.Product;
 import com.keda.common.utils.ParamsUtils;
-import com.keda.gulimall.goods.dao.AttrAttrgroupRelationDao;
-import com.keda.gulimall.goods.dao.AttrGroupDao;
-import com.keda.gulimall.goods.dao.CategoryDao;
-import com.keda.gulimall.goods.entity.AttrAttrgroupRelationEntity;
-import com.keda.gulimall.goods.entity.AttrGroupEntity;
-import com.keda.gulimall.goods.entity.CategoryEntity;
+import com.keda.gulimall.goods.dao.*;
+import com.keda.gulimall.goods.entity.*;
+import com.keda.gulimall.goods.service.ProductAttrValueService;
 import com.keda.gulimall.goods.vo.AttrVo;
 import org.bouncycastle.util.Strings;
 import org.springframework.beans.BeanUtils;
@@ -24,8 +22,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.keda.common.utils.PageUtils;
 import com.keda.common.utils.Query;
 
-import com.keda.gulimall.goods.dao.AttrDao;
-import com.keda.gulimall.goods.entity.AttrEntity;
 import com.keda.gulimall.goods.service.AttrService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -44,6 +40,9 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     @Resource
     private AttrGroupDao attrGroupDao;
+
+    @Resource
+    private ProductAttrValueDao attrValueDao;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -207,6 +206,21 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
             attrAttrgroupRelationDao.updateById(relationEntity);
         }
 
+    }
+
+    @Override
+    public boolean updateAttrValues(Long spuId, List<ProductAttrValueEntity> attrValues) {
+
+        attrValues.forEach(attrValue -> {
+
+            attrValue.setSpuId(spuId);
+            attrValueDao.update(attrValue,new UpdateWrapper<ProductAttrValueEntity>()
+                    .eq("spu_id",spuId)
+                    .eq("attr_id",attrValue.getAttrId())
+                    .set("attr_value",attrValue.getAttrValue())
+                    .set("quick_show",attrValue.getQuickShow()));
+        });
+        return true;
     }
 
     private void getCateLogPath(Long categoryId, ArrayList<Long> groupEntities) {

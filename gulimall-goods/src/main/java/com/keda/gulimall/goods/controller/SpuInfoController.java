@@ -7,11 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.keda.gulimall.goods.vo.SpuSaveVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.keda.gulimall.goods.entity.SpuInfoEntity;
 import com.keda.gulimall.goods.service.SpuInfoService;
@@ -88,6 +84,16 @@ public class SpuInfoController {
 		spuInfoService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    @PostMapping("/{spuId}/up")
+    public R upSpu(@PathVariable Long spuId){
+        Boolean successfulUp = spuInfoService.up(spuId);
+
+        if (successfulUp)
+            return R.ok();
+        else
+            return R.error();
     }
 
 }

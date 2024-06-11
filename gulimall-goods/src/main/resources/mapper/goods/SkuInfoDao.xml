@@ -18,5 +18,68 @@
         <result property="saleCount" column="sale_count"/>
     </resultMap>
 
+    <resultMap type="com.keda.gulimall.goods.common.ProductEsModel" id="productEsModelMap">
+        <result property="skuId" column="sku_id"/>
+        <result property="spuId" column="spu_id"/>
+        <result property="skuTitle" column="sku_title"/>
+        <result property="skuImage" column="sku_default_img"/>
+        <result property="saleCount" column="sale_count"/>
+        <result property="hasStock" column="has_stock"/>
+        <result property="brandId" column="brand_id"/>
+        <result property="categoryId" column="catalog_id"/>
+        <result property="skuPrice" column="price"/>
+        <!-- 1.  使用resultMap的collection来为查询结果中的列表赋值
+             2.  值的来源是名为selectSkuAttrBySkuId的查询方法的结果
+             3.  查询的关键字是本条查询记录中的sku_id， 类似于传参，可以在子查询中使用#{spu_id}来对应}
+            -->
+        <collection property="attrs" ofType="com.keda.gulimall.goods.common.ProductEsModel"
+                    select="selectSkuAttrBySkuId" column="sku_id"/>
+    </resultMap>
 
+    <select id="selectSkuInfoForProductEsModel" resultMap="productEsModelMap">
+        SELECT
+            sk.sku_id,
+            sk.spu_id,
+            sk.sku_title,
+            sk.price,
+            sk.sku_default_img,
+            sk.sale_count,
+            sk.brand_id,
+            sk.catalog_id,
+            CASE
+
+                WHEN stock.stock_num > 0 THEN
+                    TRUE ELSE FALSE
+                END AS has_stock
+        FROM
+            pms_sku_info sk
+                <!-- 使用子查询的结果作为一张表，子查询应该是完全独立的 不能依赖于外部的内容 -->
+                LEFT JOIN (
+                SELECT
+                    <!-- 聚合操作中，如果有非聚合字段，那么就需要分组                   -->
+                    sk.sku_id,
+                    <!--  Sum内部的内容，是首先逐条计算，然后再相加的     -->
+                    SUM( wsk.stock -wsk.stock_locked ) AS stock_num
+                FROM
+                    pms_sku_info sk
+                        LEFT JOIN gulimall_wms.wms_ware_sku wsk ON wsk.sku_id = sk.sku_id
+                WHERE
+                    sk.spu_id = #{spuId}
+                GROUP BY
+                    sk.sku_id
+            ) stock ON sk.sku_id = stock.sku_id
+        WHERE
+            sk.spu_id = #{spuId}
+
+    </select>
+
+    <select id="selectSkuAttrBySkuId" resultType="com.keda.gulimall.goods.common.Attr">
+        select
+            attr_id,attr_name,attr_value
+        from
+            pms_sku_sale_attr_value
+        where
+        <!-- 这里的参数使用skuId或者使用sku_id都是可以的 -->
+        sku_id = #{skuId}
+    </select>
 </mapper>

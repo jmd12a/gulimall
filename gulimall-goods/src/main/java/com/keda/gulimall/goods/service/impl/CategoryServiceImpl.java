@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.keda.gulimall.goods.dao.CategoryBrandRelationDao;
 import com.keda.gulimall.goods.entity.CategoryBrandRelationEntity;
+import com.keda.gulimall.goods.vo.CatalogVo;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -96,6 +98,52 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             relationDao.update(relation, new LambdaUpdateWrapper<CategoryBrandRelationEntity>()
                     //.set(CategoryBrandRelationEntity::getCatelogName,name)
                     .eq(CategoryBrandRelationEntity::getCatelogId,catId));
+        }
+
+    }
+
+    @Override
+    public List<CategoryEntity> getAllFristCategory() {
+        List<CategoryEntity> categoryEntityList =
+                baseMapper.selectList(new LambdaQueryWrapper<CategoryEntity>().eq(CategoryEntity::getCatLevel, 1));
+        return categoryEntityList;
+    }
+
+    @Override
+    public CatalogVo selectSubCatalogByStairId(Long stairId) {
+        CategoryEntity parentCategory = baseMapper.selectById(stairId);
+        CatalogVo parentCatalog = new CatalogVo();
+        parentCatalog.setId(parentCategory.getCatId());
+        parentCatalog.setName(parentCategory.getName());
+        parentCatalog.setParentId(0l);
+
+        recursivelySelectSubCatalogByStairId(parentCatalog);
+
+
+        return parentCatalog;
+    }
+
+    public void recursivelySelectSubCatalogByStairId(CatalogVo catalogVo){
+
+        List<CategoryEntity> categoryEntities =
+                baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", catalogVo.getId()));
+
+        if (categoryEntities.isEmpty()){
+            return;
+        }
+
+        List<CatalogVo> subList = categoryEntities.stream().map(categoryEntity -> {
+            CatalogVo catalog = new CatalogVo();
+            catalog.setId(categoryEntity.getCatId());
+            catalog.setName(categoryEntity.getName());
+            catalog.setParentId(catalogVo.getId());
+            return catalog;
+        }).collect(Collectors.toList());
+
+        catalogVo.setChildren(subList);
+
+        for (CatalogVo subCatalog : subList) {
+            recursivelySelectSubCatalogByStairId(subCatalog);
         }
 
     }

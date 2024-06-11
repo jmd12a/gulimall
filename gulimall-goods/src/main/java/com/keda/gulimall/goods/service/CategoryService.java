@@ -3,6 +3,7 @@ package com.keda.gulimall.goods.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.keda.common.utils.PageUtils;
 import com.keda.gulimall.goods.entity.CategoryEntity;
+import com.keda.gulimall.goods.vo.CatalogVo;
 
 import java.util.List;
 import java.util.Map;
@@ -23,5 +24,10 @@ public interface CategoryService extends IService<CategoryEntity> {
     void updateSort(List<CategoryEntity> categoryEntityList);
 
     void updateDetail(CategoryEntity category);
+
+    List<CategoryEntity> getAllFristCategory();
+
+    CatalogVo selectSubCatalogByStairId(Long i);
+
 }
 

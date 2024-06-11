@@ -1,16 +1,15 @@
 package com.keda.gulimall.goods.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.keda.gulimall.goods.vo.SpuSaveVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.web.bind.annotation.*;
 
 import com.keda.gulimall.goods.entity.SkuInfoEntity;
 import com.keda.gulimall.goods.service.SkuInfoService;
@@ -43,6 +42,14 @@ public class SkuInfoController {
         return R.ok().put("page", page);
     }
 
+    @RequestMapping("/update1")
+    // @RequiresPermissions("goods:skuinfo:update")
+    public R updateForCache(){
+        skuInfoService.updateDetailById();
+
+        return R.ok();
+    }
+
 
     /**
      * 信息
@@ -55,9 +62,18 @@ public class SkuInfoController {
         return R.ok().put("skuInfo", skuInfo);
     }
 
+    @RequestMapping("/name/{skuId}")
+    // @RequiresPermissions("goods:skuinfo:info")
+    public R queryName(@PathVariable("skuId") Long skuId){
+        SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
+
+        return R.ok().put("name", skuInfo.getSkuName());
+    }
+
     /**
      * 修改
      */
+
     @RequestMapping("/update")
     // @RequiresPermissions("goods:skuinfo:update")
     public R update(@RequestBody SkuInfoEntity skuInfo){
@@ -75,6 +91,14 @@ public class SkuInfoController {
 		skuInfoService.removeByIds(Arrays.asList(skuIds));
 
         return R.ok();
+    }
+
+    @RequestMapping("/test/generics")
+    public R testGenerics(@RequestParam("spuId") Long spuId){
+
+        List<SkuInfoEntity> skus = skuInfoService.list(new QueryWrapper<SkuInfoEntity>().eq("spu_id", spuId));
+
+        return R.ok().put("data", skus);
     }
 
 }

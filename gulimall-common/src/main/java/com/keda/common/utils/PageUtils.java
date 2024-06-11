@@ -40,6 +40,7 @@ public class PageUtils implements Serializable {
 	 * 列表数据
 	 */
 	private List<?> list;
+
 	
 	/**
 	 * 分页
@@ -54,6 +55,10 @@ public class PageUtils implements Serializable {
 		this.pageSize = pageSize;
 		this.currPage = currPage;
 		this.totalPage = (int)Math.ceil((double)totalCount/pageSize);
+	}
+
+	public PageUtils(){
+
 	}
 
 	/**

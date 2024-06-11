@@ -1,16 +1,16 @@
 package com.keda.gulimall.goods.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.keda.gulimall.goods.entity.ProductAttrValueEntity;
+import com.keda.gulimall.goods.service.ProductAttrValueService;
 import com.keda.gulimall.goods.vo.AttrVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.keda.gulimall.goods.entity.AttrEntity;
 import com.keda.gulimall.goods.service.AttrService;
@@ -32,6 +32,9 @@ public class AttrController {
     @Autowired
     private AttrService attrService;
 
+    @Autowired
+    private ProductAttrValueService attrValueService;
+
     /**
      * 列表
      */
@@ -46,6 +49,14 @@ public class AttrController {
         PageUtils page = attrService.queryBasePage(params, cateLogId, attrType);
 
         return R.ok().put("page", page);
+    }
+
+    @GetMapping("/base/listforspu/{spuId}")
+    public R baseAttrForSpu(@PathVariable(name = "spuId") Long spuId){
+
+        List<ProductAttrValueEntity> AttrsForSpu = attrValueService.list(new QueryWrapper<ProductAttrValueEntity>().eq("spu_id", spuId));
+
+        return R.ok().put("data", AttrsForSpu);
     }
 
 
@@ -83,6 +94,15 @@ public class AttrController {
         return R.ok();
     }
 
+    @PostMapping("/update/{spuId}")
+    // @RequiresPermissions("goods:attr:update")
+    public R updateAttrValues(@PathVariable(name = "spuId") Long spuId , @RequestBody List<ProductAttrValueEntity> attrValues){
+
+        attrService.updateAttrValues(spuId, attrValues);
+
+        return R.ok();
+    }
+
     /**
      * 删除
      */
@@ -93,5 +113,7 @@ public class AttrController {
 
         return R.ok();
     }
+
+
 
 }

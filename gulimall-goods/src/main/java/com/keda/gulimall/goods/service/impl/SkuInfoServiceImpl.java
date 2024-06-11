@@ -7,7 +7,10 @@ import com.keda.gulimall.goods.entity.SpuInfoEntity;
 import com.keda.gulimall.goods.vo.Images;
 import com.keda.gulimall.goods.vo.Skus;
 import com.keda.gulimall.goods.vo.SpuSaveVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,6 +31,7 @@ import org.springframework.util.StringUtils;
 
 
 @Service("skuInfoService")
+@Slf4j
 public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> implements SkuInfoService {
 
     @Override
@@ -41,12 +45,15 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
     }
 
     @Override
+    @Cacheable(value = "skuinfo", key = "#root.methodName")
     public PageUtils queryPageWithCondition(Map<String, Object> params) {
+
+        log.info("queryPageWithCondition方法被线程{}调用",Thread.currentThread().getId());
 
         String brandId = Optional.ofNullable(params.get("brandId")).map(o -> (String) o).filter(o->!"0".equals(o)).orElse("");
         String catelogId = Optional.ofNullable(params.get("catelogId")).map(o -> (String) o).filter(o->!"0".equals(o)).orElse("");
         String key = Optional.ofNullable(params.get("key")).map(o -> (String) o).orElse("");
-        String min = Optional.ofNullable(params.get("min")).map(o -> (String) o).filter(o->!"0".equals(o)).orElse("");
+        String min = Optional.ofNullable(params.get("min")).map(o -> (String) o).filter(o -> !"0".equals(o)).orElse("");
         String max = Optional.ofNullable(params.get("max")).map(o -> (String) o).filter(o->!"0".equals(o)).orElse("");
 
 
@@ -68,6 +75,13 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
 
 
         return new PageUtils(page);
+    }
+
+    @CacheEvict(value = "skuinfo", key = "'queryPageWithCondition'") // 更新后删除缓存，失效模式
+    @Override
+    public void updateDetailById() {
+
+        System.out.println("模拟更新sku的信息");
     }
 
 
